@@ -1,0 +1,9 @@
+# Prevent directory listings
+Options All -Indexes
+
+RewriteEngine On
+
+# Rewrite general files
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ /index.php?path=$1 [L,QSA]
