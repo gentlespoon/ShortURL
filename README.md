@@ -25,3 +25,10 @@ A ShortURL system.
 5. Open `http://hostname/_install` in browser.
 
 6. Enjoy.
+
+
+### View logs
+
+0. Open `http://hostname/_allpairs?auth=[YOUR PASSWORD in config.php]` in browser.
+
+0. Open `http://hostname/_allhistory?auth=[YOUR PASSWORD in config.php]` in browser.
