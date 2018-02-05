@@ -141,7 +141,7 @@ switch ($path) {
 
 }
 
-DB::query("INSERT INTO history (short_url, remote_ip, date_time, request_url) VALUES (%s, %s, %s, %s)", $path, $_SERVER['REMOTE_ADDR'], $nowString, $_SERVER['REQUEST_URI']);
+DB::query("INSERT INTO history (short_url, remote_ip, date_time, request_url, user_agent) VALUES (%s, %s, %s, %s, %s)", $path, $_SERVER['REMOTE_ADDR'], $nowString, $_SERVER['REQUEST_URI'], $_SERVER['HTTP_USER_AGENT']);
 $historyId = DB::query("SELECT id FROM history WHERE short_url=%s AND remote_ip=%s and date_time=%s", $path, $_SERVER['REMOTE_ADDR'], $nowString)[0]['id'];
 
 $urlPair = DB::query("SELECT * FROM url_pairs WHERE short_url=%s", $path);
