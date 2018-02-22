@@ -47,18 +47,19 @@ switch ($path) {
   case '_install':
     DB::query("CREATE TABLE `history` (
   `id` int(11) NOT NULL,
-  `short_url` varchar(50) NOT NULL DEFAULT '',
-  `long_url` varchar(200) NOT NULL DEFAULT '',
-  `remote_ip` varchar(50) NOT NULL DEFAULT '',
-  `date_time` varchar(50) NOT NULL DEFAULT '',
-  `request_url` varchar(255) NOT NULL DEFAULT ''
+  `request_url` varchar(255) NOT NULL DEFAULT '',
+  `short_url` varchar(127) NOT NULL DEFAULT '',
+  `long_url` varchar(255) NOT NULL DEFAULT '',
+  `date_time` varchar(63) NOT NULL DEFAULT '',
+  `remote_ip` varchar(63) NOT NULL DEFAULT '',
+  `user_agent` varchar(1023) NOT NULL DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
     
     DB::query("CREATE TABLE `url_pairs` (
   `id` int(11) NOT NULL,
-  `short_url` varchar(50) DEFAULT '',
-  `long_url` varchar(500) DEFAULT '',
-  `insert_date` varchar(50) DEFAULT '',
+  `short_url` varchar(63) DEFAULT '',
+  `long_url` varchar(511) DEFAULT '',
+  `insert_date` varchar(63) DEFAULT '',
   `count` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
 
@@ -168,6 +169,9 @@ exit();
 
 getAllHistory:
 $all_records = DB::query("SELECT * FROM ".$table);
+foreach($all_records as $key => $row) {
+  $all_records[$key]['date_time'] = date('Y-m-d H:i:s T', strtotime($row['date_time']));
+}
 
 
 // render HTML template

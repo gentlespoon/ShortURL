@@ -11,6 +11,9 @@
 <body>
   <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
     <a class="navbar-brand" href='/'><?=$_config['title']?></a>
+<?php if (isset($all_records)) : ?>
+    <a href="" class="btn btn-primary" id="getip">Get IP</a>
+<?php endif; ?>
   </nav>
 
   <div id="canvas" style="padding: 1em;">
@@ -27,6 +30,9 @@
 
 
 <?php if (!isset($all_records)) : ?>
+
+<!-- New UrlPair Mode -->
+
     <form action="/_newurl" method="post">
       <div class="form-group">
         <label for="tb_shortUrl">Preferred Short URL</label>
@@ -43,11 +49,18 @@
       </div>
     </form>
 
+<!-- End New UrlPair Mode -->
+
 
 
 <?php else : ?>
 
+
+
+<!-- View Record Mode -->
+
 <style>
+body { font-size: 0.8rem; }
 th { text-align: left; }
 </style>
 
@@ -61,10 +74,12 @@ th { text-align: left; }
 <?php     foreach($all_records as $pair) : ?>
   <tr>
 <?php       foreach ($pair as $field => $value) : ?>
-<?php         if ($field != 'long_url') : ?>
-    <td><?=$value?></td>
-<?php         else : ?>
+<?php         if ($field == 'long_url') : ?>
     <td><a href="<?=$pair['long_url']?>" target="_blank"><?=$pair['long_url']?></a></td>
+<?php         elseif ($field == 'remote_ip') : ?>
+    <td class="ip_grid" id="ip_<?=$pair['id']?>"><?=$value?></td>
+<?php         else : ?>
+    <td><?=$value?></td>
 <?php         endif ?>
 <?php       endforeach ?>
   </tr>
@@ -74,6 +89,29 @@ th { text-align: left; }
   No Records.
 <?php   endif ?>
 
+
+
+<script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+  $(document).ready(function() {
+
+    $("#getip").click(function () {
+      $( ".ip_grid" ).each(function() {
+        var id = $(this).prop('id');
+        alert(id);
+        $.get('/checkip.php', { ip: $(this).text() })
+          .done(function(data) {
+            $("#"+id).prop('title', data);
+        });
+      });
+
+
+    });
+
+  });
+</script>
+
+<!-- End View Record Mode -->
 
 <?php endif ?>
 
