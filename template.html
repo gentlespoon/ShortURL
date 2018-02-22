@@ -12,7 +12,7 @@
   <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
     <a class="navbar-brand" href='/'><?=$_config['title']?></a>
 <?php if (isset($all_records)) : ?>
-    <a href="" class="btn btn-primary" id="getip">Get IP</a>
+    <a href="#" class="btn btn-primary" id="getip">Get IP</a>
 <?php endif; ?>
   </nav>
 
@@ -65,7 +65,7 @@ th { text-align: left; }
 </style>
 
 <?php   if (!empty($all_records)) : ?>
-<table width=100% border=1>
+<table class="table table-sm table-hover">
   <tr>
 <?php     foreach($all_records[0] as $field => $value) : ?>
     <th><?=$field?></th>
@@ -98,14 +98,13 @@ th { text-align: left; }
     $("#getip").click(function () {
       $( ".ip_grid" ).each(function() {
         var id = $(this).prop('id');
-        alert(id);
         $.get('/checkip.php', { ip: $(this).text() })
           .done(function(data) {
             $("#"+id).prop('title', data);
         });
       });
 
-
+      return false;
     });
 
   });
