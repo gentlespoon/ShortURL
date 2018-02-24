@@ -54,7 +54,7 @@ switch ($path) {
   `remote_ip` varchar(63) NOT NULL DEFAULT '',
   `user_agent` varchar(1023) NOT NULL DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
-    
+
     DB::query("CREATE TABLE `url_pairs` (
   `id` int(11) NOT NULL,
   `short_url` varchar(63) DEFAULT '',
@@ -88,13 +88,11 @@ switch ($path) {
   case '_allpairs':
     if ($_GET['auth'] != $_config['pw'])
       exit('Access Denied.');
-    $table = 'url_pairs';
-    goto getAllHistory;
+    goto getAllPairs;
 
   case '_allhistory':
     if ($_GET['auth'] != $_config['pw'])
       exit('Access Denied.');
-    $table = 'history';
     goto getAllHistory;
 
 
@@ -164,14 +162,20 @@ exit();
 
 
 
-
+getAllPairs:
+$all_records = DB::query('SELECT * FROM url_pairs');
+foreach($all_records as $key => $row) {
+  $all_records[$key]['insert_date'] = date('Y-m-d H:i:s T', strtotime($row['insert_date']));
+}
+goto renderTemplate;
 
 
 getAllHistory:
-$all_records = DB::query("SELECT * FROM ".$table);
+$all_records = DB::query('SELECT * FROM history');
 foreach($all_records as $key => $row) {
   $all_records[$key]['date_time'] = date('Y-m-d H:i:s T', strtotime($row['date_time']));
 }
+goto renderTemplate;
 
 
 // render HTML template
