@@ -1,13 +1,13 @@
 RewriteEngine On
-# Redirect to domain without www.
-RewriteCond %{HTTPS} off
-RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
-RewriteRule .* http://%1%{REQUEST_URI} [R=301,L]
 
-# Prevent directory listings
-Options All -Indexes
+########### YOU WON'T NEED THESE ############
+##### THESE ARE FOR MY ENVIRONMENT ONLY #####
+RewriteCond %{HTTP_HOST} ^(.+).gtspn.com$ [NC] 
+RewriteRule (.*) http://%1.gentlespoon.com/$1 [R=301,L] 
+#############################################
+#############################################
 
 # Rewrite general files
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ /index.php?path=$1 [L,QSA]
+RewriteRule ^(.*)$ index.php?path=$1 [L,QSA]
