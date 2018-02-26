@@ -3,7 +3,7 @@
 A ShortURL system.
 
 * Use PHP and MySQL.
-* 0% JavaScript.
+* ~~0% JavaScript.~~ jQuery (AJAX) is used for getting IP location info from 3rd party service.
 * 0% Ads.
 * Ugly, unstructured
 * Lightweight and works well.
