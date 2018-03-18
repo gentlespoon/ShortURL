@@ -10,4 +10,4 @@ RewriteRule (.*) http://%1.gentlespoon.com/$1 [R=301,L]
 # Rewrite general files
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ index.php?path=$1 [L,QSA]
+RewriteRule ^(.*)$ /index.php?path=$1 [L,QSA]
