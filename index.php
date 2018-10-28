@@ -8,7 +8,7 @@
  * End:   2018-02-02 20:55:21
  */
 
-
+session_start();
 define('ROOT', $_SERVER['DOCUMENT_ROOT'].'/');
 
 require_once('meekrodb.2.3.class.php');
@@ -59,6 +59,7 @@ switch ($path) {
   `id` int(11) NOT NULL,
   `short_url` varchar(63) DEFAULT '',
   `long_url` varchar(511) DEFAULT '',
+  `title` varchar(511) DEFAULT '',
   `insert_date` varchar(63) DEFAULT '',
   `count` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
@@ -72,7 +73,6 @@ switch ($path) {
   ADD UNIQUE KEY `long_url` (`long_url`);");
 
     DB::query("ALTER TABLE `history` MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;");
-
     DB::query("ALTER TABLE `url_pairs` MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;");
 
     array_push($alerts, ['primary', 'Installed']);
@@ -106,9 +106,19 @@ switch ($path) {
     if (!array_key_exists('long_url', $_POST))
       goto renderTemplate;
 
+    if (!array_key_exists('verify', $_POST))
+      goto renderTemplate;
+
+    if ($_POST['verify'] != $_SESSION['verify']) {
+      array_push($alerts, ['danger', 'If you cannot answer the question, I suspect you are not a human.']);  
+      goto renderTemplate;
+    }
+
     $long_url = trim($_POST['long_url']);
     if ($long_url == '')
       goto renderTemplate;
+
+    $title = trim($_POST['title']);
 
     $existed_short_url = DB::query("SELECT short_url FROM url_pairs WHERE long_url=%s", $long_url);
     if (!empty($existed_short_url)) {
@@ -132,9 +142,9 @@ switch ($path) {
     if (!empty(DB::query('SELECT id FROM url_pairs WHERE short_url=%s', $short_url)))
       goto generate;
 
-    DB::query("INSERT INTO url_pairs (short_url, long_url, insert_date) VALUES (%s, %s, %s)", $short_url, $long_url, $nowString );
+    DB::query("INSERT INTO url_pairs (short_url, long_url, insert_date, title) VALUES (%s, %s, %s, %s)", $short_url, $long_url, $nowString, $title );
     $full_short_url = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'].'/'.$short_url;
-    array_push($alerts, ['primary', '<a href="'.$full_short_url.'" target="_blank">'.$full_short_url.'</a>']);
+    array_push($alerts, ['primary', '<a href="'.$full_short_url.'" target="_blank">'.$title.'</a><br>'. $full_short_url ]);  
     goto renderTemplate;
 
 
@@ -152,7 +162,13 @@ if (empty($urlPair)) {
 DB::query("UPDATE history SET long_url=%s WHERE id=%i", $urlPair[0]['long_url'], $historyId);
 DB::query("UPDATE url_pairs SET count=count+1 WHERE id=%i", $urlPair[0]['id']);
 
-header('Location: '.$urlPair[0]['long_url']);
+$output = [
+  'link' => $urlPair[0]['long_url'],
+  'title' => $urlPair[0]['title'],
+];
+
+include_once('redirect.html');
+// header('Location: '.$urlPair[0]['long_url']);
 exit();
 
 

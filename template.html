@@ -32,8 +32,18 @@
 <?php if (!isset($all_records)) : ?>
 
 <!-- New UrlPair Mode -->
+    <?php
+      $var1 = rand(10,30);
+      $var2 = rand(10,30);
+      $_SESSION['verify'] = $var1 + $var2;
+    ?>
 
     <form action="/_newurl" method="post">
+      <div class="form-group">
+        <label for="tb_title">Title</label>
+        <input type="text" class="form-control" id="tb_title" aria-describedby="" name='title'>
+        <small class="form-text text-muted">Optional Title for redirect page.</small>
+      </div>
       <div class="form-group">
         <label for="tb_shortUrl">Preferred Short URL</label>
         <input type="text" class="form-control" id="tb_shortUrl" aria-describedby="" name='short_url'>
@@ -41,8 +51,13 @@
       </div>
       <div class="form-group">
         <label for="tb_longUrl">Your Long URL</label>
-        <input type="text" class="form-control" id="tb_shortUrl" aria-describedby="" name='long_url' placeholder="https://..." required>
+        <input type="text" class="form-control" id="tb_longUrl" aria-describedby="" name='long_url' placeholder="https://..." required>
         <small class="form-text text-muted">Required. Short URL will redirect to this long URL.</small>
+      </div>
+      <div class="form-group">
+        <label for="tb_verify">What is the result of <?=$var1?>+<?=$var2?> ?</label>
+        <input type="text" class="form-control" id="tb_verify" aria-describedby="" name='verify' placeholder="" required>
+        <small class="form-text text-muted"></small>
       </div>
       <div class="form-group">
         <button type="submit" class="btn btn-primary" id="btn_continue">Create Link</button>
