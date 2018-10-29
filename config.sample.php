@@ -28,4 +28,5 @@ $_config = [
     "format"    => DateTime::ISO8601,
   ],
   "pw" => "",                     // a password used for authenticate when using _functions
+                                  // you can use a function here to generate your dynamic password :D
 ];
