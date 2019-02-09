@@ -1,6 +1,6 @@
 # ShortURL
 
-A ShortURL system.
+A ShortURL system, available at https://gtspn.com/
 
 * Use PHP and MySQL.
 * ~~0% JavaScript.~~ jQuery (AJAX) is used for getting IP location info from 3rd party service.
