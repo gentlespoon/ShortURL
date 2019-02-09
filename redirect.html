@@ -1,0 +1,10 @@
+<!doctype HTML5>
+<html>
+<head>
+  <title><?=$output['title']?></title>
+</head>
+<body>
+  Redirecting to <a href="<?=$output['link']?>"><?=$output['link']?></a>.
+  <script>setTimeout(function() {window.location.href="<?=$output['link']?>";}, 3000);</script>
+</body>
+</html>
