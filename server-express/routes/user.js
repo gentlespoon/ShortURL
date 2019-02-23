@@ -39,13 +39,13 @@ router.post('/login', (req, res, next) => {
       } else {
         // if user does not exist / incorrect password
         db_user.query("INSERT INTO login_history (auth_login, auth_time_iso, remote_address, from_application, result) VALUES (?, ?, ?, ?, ?)", [
-          req.body.email, moment().toISOString(), req.connection.remoteAddress, process.env.appName, 'fail']);
+          req.body.email, moment().toISOString(), req.connection.remoteAddress, process.env.appName, 'fail - incorrect password']);
         return res.send(api(0, 'Invalid credentials.'));
       }
     } else {
       // if user does not exist / incorrect password
       db_user.query("INSERT INTO login_history (auth_login, auth_time_iso, remote_address, from_application, result) VALUES (?, ?, ?, ?, ?)", [
-            req.body.email, moment().toISOString(), req.connection.remoteAddress, process.env.appName, 'fail']);
+            req.body.email, moment().toISOString(), req.connection.remoteAddress, process.env.appName, 'fail - email not found']);
       return res.send(api(0, 'Email is not registered.'));
     }
   });

@@ -9,6 +9,14 @@ var apiRouter = require('./routes/api');
 
 var app = express();
 
+var allowCORS = (req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  next();
+}
+app.use(allowCORS);
+
 // Session
 var sess = {
   secret: process.env.sessionSecret,
