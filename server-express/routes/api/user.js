@@ -15,12 +15,13 @@ var db_user = mysql.createConnection({
   database : process.env.DB_NAME_u
 });
 
-var api = require('../modules/apiFormat');
-var email = require('../modules/email');
+var api = require('../../modules/apiFormat');
+var email = require('../../modules/email');
+var auth = require('../../modules/auth');
+
+router.all('/', (req, res, next) => { res.send(api(0, '?')); });
 
 router.post('/login', (req, res, next) => {
-  if (req.session.account_id)
-    return res.send(api(1, {account_id: req.session.account_id}));
   // validate input type
   if (typeof req.body.email !== 'string' || req.body.email === ''
    || typeof req.body.password !== 'string' || req.body.password === '')
@@ -31,11 +32,10 @@ router.post('/login', (req, res, next) => {
     if (result.length) {
       // if user exists, compare password
       if (bcrypt.compareSync(req.body.password, result[0].password)) {
-        req.session.account_id = result[0].account_id;
+        var account_id = result[0].account_id;
         db_user.query("INSERT INTO login_history (auth_login, auth_time_iso, remote_address, from_application, result, account_id) VALUES (?, ?, ?, ?, ?, ?)", [
-          req.body.email, moment().toISOString(), req.connection.remoteAddress, process.env.appName, 'success', req.session.account_id]);
-        console.log(req.session);
-        return res.send(api(1, {account_id: req.session.account_id}));
+          req.body.email, moment().toISOString(), req.connection.remoteAddress, process.env.appName, 'success', account_id]);
+        return res.send(api(1, auth.create({uid: account_id})));
       } else {
         // if user does not exist / incorrect password
         db_user.query("INSERT INTO login_history (auth_login, auth_time_iso, remote_address, from_application, result) VALUES (?, ?, ?, ?, ?)", [
@@ -101,8 +101,8 @@ router.post('/register', (req, res, next) => {
       db_user.query('SELECT * FROM accounts WHERE account_id=?', [account_id], (err, result, fields) => {
         if (err) return res.send(api(0, err));
         if (!result.length) return res.send(api(0, 'Failed to get user from UserCenter'));
-        req.session.account_id = result[0].account_id;
-        return res.send(api(1, {account_id: req.session.account_id}));
+        var account_id = result[0].account_id;
+        return res.send(api(1, auth.create({uid: account_id})));
       })
     });
   });
@@ -175,23 +175,6 @@ router.post('/reset', (req, res, next) => {
   });
 });
 
-
-
-
-router.all('/logout', (req, res, next) => {
-  req.session.destroy();
-  return res.send(api(1));
-});
-
-
-router.get('/check', (req, res, next) => {
-  console.log(req.session);
-  if (req.session.account_id) {
-    return res.send(api(1, {account_id: req.session.account_id}));
-  } else {
-    return res.send(api(0));
-  }
-})
 
 
 module.exports = router;
