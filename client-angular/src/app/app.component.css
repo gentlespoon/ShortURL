@@ -1,0 +1,7 @@
+.mainpanel {
+    background-color: white;
+    border-radius: .4em;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
+    min-height: 600px;
+    padding: 1em;
+}

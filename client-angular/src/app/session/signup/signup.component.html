@@ -1,3 +1,26 @@
-<p>
-  signup works!
-</p>
+<div class="marginAuto col col-sm-12 col-md-8 col-lg-6">
+
+    <h3>Sign up for more features.</h3>
+
+    <fieldset [class.focus]="focus.email">
+      <legend>Email</legend>
+      <input type="text" [(ngModel)]="email" (focus)="setFocus('email')" (blur)="setBlur('email')">
+    </fieldset>
+
+    <fieldset [class.focus]="focus.password">
+      <legend>Password</legend>
+      <input type="text" [(ngModel)]="password" (focus)="setFocus('password')" (blur)="setBlur('password')">
+    </fieldset>
+
+    <fieldset [class.focus]="focus.passwordVerify">
+        <legend>Re-enter Password</legend>
+        <input type="text" [(ngModel)]="passwordVerify" (focus)="setFocus('passwordVerify')" (blur)="setBlur('passwordVerify')">
+      </fieldset>
+
+    <div class="buttonArea">
+      <button class="btn bg-blue" (click)="signup()">Sign Up</button>
+      <a href="/user/forget">Forgot your password?</a>
+      <a href="/user/signup">Already have an account?</a>
+    </div>
+
+  </div>

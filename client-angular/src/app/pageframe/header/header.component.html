@@ -1,0 +1,7 @@
+<div class="header">
+  <div class="container">
+    <a class="header-item brand" href="/">Gs-ShortURL</a>
+    <a class="header-item right" href="/user/signout" *ngIf="sessionService.uid">Sign Out</a>
+    <a class="header-item right" href="/user/signin" *ngIf="!sessionService.uid">Sign In</a>
+  </div>
+</div>
