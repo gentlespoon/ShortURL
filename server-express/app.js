@@ -2,7 +2,6 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var logger = require('morgan');
-var fs = require('fs');
 var expressip = require('express-ip');
 var visitLog = require('./modules/visitLog');
 
