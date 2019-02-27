@@ -22,7 +22,7 @@ router.all('/:url', (req, res, next) => {
     if (result.length) {
       var title = result[0].title ? result[0].title : 'Redirecting...';
       req.target_url = result[0].long_url;
-      db.query('UPDATE url_pairs SET count=count+1 WHERE id=?', [result[0].id], (err, result, fields) => { if (err) throw err; });
+      db.query('UPDATE url_pairs SET clicks=clicks+1 WHERE id=?', [result[0].id], (err, result, fields) => { if (err) throw err; });
       // log detailed successful redirection
       visitLog.log(req);
       // redirect
@@ -35,7 +35,7 @@ router.all('/:url', (req, res, next) => {
       // not found, log detailed unsuccessful redirection
       visitLog.log(req);
       res.redirect('/?e=NotFound');
-    } 
+    }
   });
   return;
 });
