@@ -2,11 +2,11 @@
 <div class="header">
   <div class="container">
     <a class="header-item brand" href="/">Gs-ShortURL</a>
-    <a class="header-item right" href="#" *ngIf="sessionService.token.length" (click)="signout()">Sign Out</a>
-    <a class="header-item right" href="/dashboard" *ngIf="sessionService.token.length">{{sessionService.username}}'s Dashboard</a>
 
     <!-- Float right has reversed order -->
-    <a class="header-item right" href="/user/signup" *ngIf="!sessionService.token.length">Sign Up</a>
+    <!-- <a class="header-item right" href="/user/signup" *ngIf="!sessionService.token.length">Sign Up</a> -->
+    <a class="header-item right" href="#" *ngIf="sessionService.token.length" (click)="signout()">Sign Out</a>
     <a class="header-item right" href="/user/signin" *ngIf="!sessionService.token.length">Sign In</a>
+    <a class="header-item right" href="/dashboard">{{sessionService.username}}'s Dashboard</a>
   </div>
 </div>

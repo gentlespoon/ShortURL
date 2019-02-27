@@ -12,7 +12,7 @@ import { EmailService } from 'src/app/shorturl/email.service';
 export class SignupComponent implements OnInit {
 
   public email = '';
-  public focus = [];
+  public focus = {};
   public password = '';
   public passwordVerify = '';
 

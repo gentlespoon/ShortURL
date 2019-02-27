@@ -13,7 +13,7 @@ import { EmailService } from 'src/app/shorturl/email.service';
 export class ForgetComponent implements OnInit {
 
   public email = '';
-  public focus = [];
+  public focus = {};
 
   constructor(
     public messageService: MessageService,

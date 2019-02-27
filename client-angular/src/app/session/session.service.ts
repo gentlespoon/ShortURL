@@ -15,7 +15,7 @@ const httpOptions = {
 export class SessionService {
 
   public token: string = '';
-  public username: string = '';
+  public username: string = 'Guest';
 
   constructor(
     private http: HttpClient,
@@ -23,7 +23,7 @@ export class SessionService {
     private _router: Router
     ) {
     this.token = localStorage.getItem('token') ? localStorage.getItem('token') : '';
-    this.username = localStorage.getItem('username') ? localStorage.getItem('username') : '';
+    this.username = localStorage.getItem('username') ? localStorage.getItem('username') : 'Guest';
   }
 
   public signin(email: string, password: string): void {
@@ -71,7 +71,7 @@ export class SessionService {
 
   public signout(): void {
     this.token = '';
-    this.username = '';
+    this.username = 'Guest';
     localStorage.setItem('token', this.token);
     localStorage.setItem('username', this.username);
   }

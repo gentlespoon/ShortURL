@@ -1,26 +1,48 @@
 <div class="marginAuto col col-sm-12 col-md-8 col-lg-6">
 
-    <h3>Sign up for more features.</h3>
-    <form (submit)="signup()">
-      <fieldset [class.focus]="focus['email']">
-        <legend>Email</legend>
-        <input type="text" [(ngModel)]="email" (focus)="setFocus('email')" (blur)="setBlur('email')" name="email">
+  <h3>Sign up for more features.</h3>
+  <form (submit)="signup()">
+    <fieldset [class.focus]="focus['email']">
+      <legend>Email</legend>
+      <input type="text" [(ngModel)]="email" (focus)="setFocus('email')" (blur)="setBlur('email')" name="email">
+    </fieldset>
+
+    <fieldset [class.focus]="focus['password']">
+      <legend>Password</legend>
+      <input type="password" [(ngModel)]="password" (focus)="setFocus('password')" (blur)="setBlur('password')" name="password">
+    </fieldset>
+
+    <fieldset [class.focus]="focus['passwordVerify']">
+        <legend>Re-enter Password</legend>
+        <input type="password" [(ngModel)]="passwordVerify" (focus)="setFocus('passwordVerify')" (blur)="setBlur('passwordVerify')" name="passwordVerify">
       </fieldset>
 
-      <fieldset [class.focus]="focus['password']">
-        <legend>Password</legend>
-        <input type="password" [(ngModel)]="password" (focus)="setFocus('password')" (blur)="setBlur('password')" name="password">
-      </fieldset>
+    <div class="buttonArea">
+      <div><button class="btn bg-blue">Sign Up</button></div>
+      <div><a href="/user/signin">Already have an account?</a></div>
+    </div>
+  </form>
 
-      <fieldset [class.focus]="focus['passwordVerify']">
-          <legend>Re-enter Password</legend>
-          <input type="password" [(ngModel)]="passwordVerify" (focus)="setFocus('passwordVerify')" (blur)="setBlur('passwordVerify')" name="passwordVerify">
-        </fieldset>
+</div>
 
-      <div class="buttonArea">
-        <button class="btn bg-blue">Sign Up</button>
-        <a href="/user/signin">Already have an account?</a>
+
+<div class="marginAuto col col-sm-12 col-md-10 col-lg-8 hint">
+    <div class="row">
+      <div class="col-sm-12 col-md-6">
+        If you <a href="/user/signin">sign in</a>,
+        <ul>
+            <li>You can choose your preferred Short URL.</li>
+            <li>Your control when the link expires.</li>
+            <li>Statistics will be available in your personal <a href="/dashboard">Dashboard</a>.</li>
+        </ul>
       </div>
-    </form>
-
+      <div class="col-sm-12 col-md-6">
+        As a guest,
+        <ul>
+          <li>Your will get randomly assigned Short URL.</li>
+          <li>Your links will expire 1 year after creation.</li>
+          <li>Everyone can see statistics in guest's <a href="/dashboard">Dashboard</a>.</li>
+        </ul>
+      </div>
+    </div>
   </div>

@@ -3,8 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './shorturl/dashboard/dashboard.component';
 import { ForgetComponent } from './session/forget/forget.component';
 import { HelpComponent } from './static/help/help.component';
-import { NewCustomComponent } from './shorturl/new-custom/new-custom.component';
-import { NewRandomComponent } from './shorturl/new-random/new-random.component';
+import { NewurlComponent } from './shorturl/newurl/newurl.component';
 import { NgModule } from '@angular/core';
 import { PolicyPrivacyComponent } from './static/policy-privacy/policy-privacy.component';
 import { PolicyUsageComponent } from './static/policy-usage/policy-usage.component';
@@ -17,7 +16,7 @@ import { TermsOfServiceComponent } from './static/terms-of-service/terms-of-serv
 
 const routes: Routes = [
   {
-    path: '', component: NewRandomComponent,
+    path: '', component: NewurlComponent,
   },
   {
     path: 'user', children: [
@@ -31,7 +30,6 @@ const routes: Routes = [
   {
     path: 'dashboard', children: [
       {path: '', component: DashboardComponent},
-      {path: 'new', component: NewCustomComponent},
     ]
   },
   {

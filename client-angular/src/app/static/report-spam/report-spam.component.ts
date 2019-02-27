@@ -7,9 +7,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ReportSpamComponent implements OnInit {
 
-  constructor() { }
+  public focus = {};
+  shortURL: string = '';
+
+  constructor() {
+  }
 
   ngOnInit() {
+  }
+
+  report() {
+
+  }
+
+
+  setFocus(name: string): void {
+    this.focus[name] = true;
+  }
+  setBlur(name: string): void {
+    this.focus[name] = false;
   }
 
 }

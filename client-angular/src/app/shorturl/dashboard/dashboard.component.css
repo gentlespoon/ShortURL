@@ -1,0 +1,12 @@
+table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+th {
+  text-align: left;
+}
+
+td, th {
+  padding: .5em;
+}

@@ -12,4 +12,14 @@ function guard(req, res, next) {
   return res.send(api(0, 'Unauthorized'));
 }
 
-module.exports = guard;
+function validate(token) {
+  if (token) {
+    let jwt = auth.verify(token);
+    if (jwt) {
+      return jwt.uid;
+    }
+  }
+  return false;
+}
+
+module.exports = { middleware: guard, validate: validate };

@@ -1,5 +1,3 @@
-import * as Moment from 'moment';
-
 import { Component, OnInit } from '@angular/core';
 
 import { ClipboardService } from 'ngx-clipboard';
@@ -10,14 +8,19 @@ import { ShorturlService } from '../shorturl.service';
 import { UrlPair } from '../urlpair';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css', '../shorturl.component.css']
+  selector: 'app-newurl',
+  templateUrl: './newurl.component.html',
+  styleUrls: ['./newurl.component.css', '../shorturl.component.css']
 })
-export class DashboardComponent implements OnInit {
+export class NewurlComponent implements OnInit {
 
-  focus = {};
-  moment = null;
+  title = '';
+  long_url = '';
+  short_url = '';
+  expire = '';
+
+  focus = {title: false, expire: false, short_url: false, long_url: false};
+  show = {title: true, expire: true, short_url: true};
 
   constructor(
     public shorturlService: ShorturlService,
@@ -25,14 +28,20 @@ export class DashboardComponent implements OnInit {
     public emailService: EmailService,
     private _clipboardService: ClipboardService,
     public sessionService: SessionService,
-  ) {
-    this.shorturlService.loadList();
-    this.moment = Moment;
-  }
-
-
+  ) { }
 
   ngOnInit() {
+  }
+
+  shorten(): void {
+    if (this.long_url.indexOf('http') === -1) return;
+    var urlObj = {
+      long_url: this.long_url,
+      short_url: this.show['short_url'] && this.short_url ? this.short_url : '',
+      title: this.show['title'] && this.title ? this.title : '',
+      expire: this.show['expire'] && this.expire ? this.expire : '',
+    };
+    this.shorturlService.newUrlPair(new UrlPair(urlObj));
   }
 
   clear(): void {
@@ -40,23 +49,18 @@ export class DashboardComponent implements OnInit {
     this.shorturlService.urlPairs = [];
   }
 
-  delete(short_url: string): void {
-    this.shorturlService.delete(short_url);
-  }
-
-
-
   copy(str: string): void {
     this._clipboardService.copyFromContent(str);
-    this.messageService.newMessage('URL has been copied to the clipboard!');
   }
 
+  toggle(str: string): void {
+    this.show[str] = !this.show[str];
+  }
   setFocus(name: string): void {
     this.focus[name] = true;
   }
   setBlur(name: string): void {
     this.focus[name] = false;
   }
-
 
 }
