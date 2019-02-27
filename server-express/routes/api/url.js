@@ -23,7 +23,7 @@ router.all('/', (req, res, next) => { res.send(api(0, '?')); });
 
 // add new pair
 router.post('/addRandom', (req, res, next) => {
-  if (typeof req.body.url !== 'string' || req.body.url === '')
+  if (typeof req.body.long_url !== 'string' || req.body.long_url === '')
     return res.send(api(0, 'API requires a JSON [url] parameter.'));
   // check for count(created-url-in-a-day)
   db.query('SELECT id FROM url_pairs WHERE ip=? AND create_date>?', [req.ip, moment().add(-1, 'd').toISOString()], (err, result, fields) => {
@@ -31,7 +31,7 @@ router.post('/addRandom', (req, res, next) => {
     if (result.length > 20) {
       return res.send(api(0, 'Your IP have created more than the maximum number of short URL allowed for guests. Create an account to remove the limit.'));
     }
-    addRandomURL(req, res, req.body.url, req.body.title, 3);
+    addRandomURL(req, res, req.body.long_url, req.body.title, 3);
   })
 });
 

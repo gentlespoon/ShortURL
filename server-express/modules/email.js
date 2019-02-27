@@ -34,7 +34,7 @@ class Email {
 
   // email templates
   template(t) {
-    var body = `<div style="background-color: #006088; color: white; padding: 1em; font-size: 1.2em; font-weight: 600;">GtSpn.com ShortURL</div>`;
+    var body = `<div style="background-color: #006088; color: white; padding: 1em; font-size: 1.2em; font-weight: 600;">Gs-ShortURL</div>`;
     switch (t) {
       case 'register':
         body += `

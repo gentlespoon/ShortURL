@@ -21,7 +21,7 @@ export class MessageService {
     message: string, timeout?: number | boolean,
     style?: string, dismissible?: boolean, detail?: string
   ) {
-    console.log(this.messages);
+    // console.log(this.messages);
     var msgObj = {};
     if (!message) throw ('Empty message body');
     msgObj['message'] = message;
@@ -44,7 +44,7 @@ export class MessageService {
   }
 
   private timerTick(): void {
-    console.log(this.messages);
+    // console.log(this.messages);
     if (this.messages.length) {
       // reverse direction so deleting message does not affect previous indices.
       for (var msgIndex = this.messages.length-1; msgIndex >= 0; msgIndex--) {

@@ -1,49 +1,4 @@
-fieldset {
-  border: 1px solid lightgray;
-  border-radius: .2em;
-  -webkit-border-radius: .2em;
-  -moz-border-radius: .2em;
-  -ms-border-radius: .2em;
-  -o-border-radius: .2em;
-  padding: 0 .2em .2em .2em;
-  transition: border 0.3s ease;
-  -webkit-transition: border 0.3s ease;
-  -moz-transition: border 0.3s ease;
-  -ms-transition: border 0.3s ease;
-  -o-transition: border 0.3s ease;
-  margin-top: .5em;
-}
-fieldset.focus {
-  border: 1px solid #0060a0;
-  transition: border 0.3s ease;
-  -webkit-transition: border 0.3s ease;
-  -moz-transition: border 0.3s ease;
-  -ms-transition: border 0.3s ease;
-  -o-transition: border 0.3s ease;
-}
 
-legend {
-  display: inline-block;
-  padding: 0 .5em;
-  margin: 0 .5em 0 .5em;
-  font-weight: initial;
-  font-size: initial;
-  width: initial;
-  transition: color 0.3s ease;
-  -webkit-transition: color 0.3s ease;
-  -moz-transition: color 0.3s ease;
-  -ms-transition: color 0.3s ease;
-  -o-transition: color 0.3s ease;
-}
-
-fieldset.focus legend {
-  color: #0060a0;
-  transition: color 0.3s ease;
-  -webkit-transition: color 0.3s ease;
-  -moz-transition: color 0.3s ease;
-  -ms-transition: color 0.3s ease;
-  -o-transition: color 0.3s ease;
-}
 
 
 .marginAuto {
@@ -54,5 +9,5 @@ fieldset.focus legend {
   margin-top: 1em;
 }
 .buttonArea > * {
-  margin-right: 1.5em;
+  margin-right: 2em;
 }

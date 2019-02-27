@@ -2,20 +2,22 @@
 
   <h3>Sign in to access your dashboard.</h3>
 
-  <fieldset [class.focus]="focus.email">
-    <legend>Email</legend>
-    <input type="text" [(ngModel)]="email" (focus)="setFocus('email')" (blur)="setBlur('email')">
-  </fieldset>
+  <form (submit)="signin()">
+    <fieldset [class.focus]="focus.email">
+      <legend>Email</legend>
+      <input type="text" [(ngModel)]="email" (focus)="setFocus('email')" (blur)="setBlur('email')" name="email">
+    </fieldset>
 
-  <fieldset [class.focus]="focus.password">
-    <legend>Password</legend>
-    <input type="text" [(ngModel)]="password" (focus)="setFocus('password')" (blur)="setBlur('password')">
-  </fieldset>
+    <fieldset [class.focus]="focus.password">
+      <legend>Password</legend>
+      <input type="password" [(ngModel)]="password" (focus)="setFocus('password')" (blur)="setBlur('password')" name="password">
+    </fieldset>
 
-  <div class="buttonArea">
-    <button class="btn bg-blue" (click)="signin()">Sign In</button>
-    <a href="/user/forget">Forgot your password?</a>
-    <a href="/user/signup">Do not have an account?</a>
-  </div>
+    <div class="buttonArea">
+      <button class="btn bg-blue">Sign In</button>
+      <a href="/user/signup">Sign up</a>
+      <a href="/user/forget">Forgot your password?</a>
+    </div>
+  </form>
 
 </div>

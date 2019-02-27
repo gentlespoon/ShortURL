@@ -7,11 +7,11 @@ import { ForgetComponent } from './session/forget/forget.component';
 import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from './pageframe/header/header.component';
 import { HelpComponent } from './static/help/help.component';
+import { HttpClientModule } from '@angular/common/http';
 import { MessageComponent } from './message/message.component';
 import { NewCustomComponent } from './shorturl/new-custom/new-custom.component';
 import { NewRandomComponent } from './shorturl/new-random/new-random.component';
 import { NgModule } from '@angular/core';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PolicyPrivacyComponent } from './static/policy-privacy/policy-privacy.component';
 import { PolicyUsageComponent } from './static/policy-usage/policy-usage.component';
 import { ReportSpamComponent } from './static/report-spam/report-spam.component';
@@ -21,6 +21,9 @@ import { SessionService } from './session/session.service';
 import { SigninComponent } from './session/signin/signin.component';
 import { SignupComponent } from './session/signup/signup.component';
 import { TermsOfServiceComponent } from './static/terms-of-service/terms-of-service.component';
+import { EmailService } from './shorturl/email.service';
+
+import { ClipboardModule } from 'ngx-clipboard';
 
 @NgModule({
   declarations: [
@@ -46,9 +49,10 @@ import { TermsOfServiceComponent } from './static/terms-of-service/terms-of-serv
     AppRoutingModule,
     BrowserModule,
     FormsModule,
-    NgbModule,
+    HttpClientModule,
+    ClipboardModule,
   ],
-  providers: [SessionService],
+  providers: [SessionService, EmailService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
