@@ -1,29 +1,36 @@
 <div class="">
   <h3>Make your links shorter!</h3>
-  <fieldset [class.focus]="focus.longURL">
+  <fieldset [class.focus]="focus['longURL']">
     <legend>Original URL (required)</legend>
     <input type="text" [(ngModel)]="longURL" (focus)="setFocus('longURL')" (blur)="setBlur('longURL')" placeholder="https://">
   </fieldset>
 
-  <fieldset [class.focus]="focus.title">
+  <fieldset [class.focus]="focus['title']">
     <legend><input type="checkbox" [(ngModel)]="showTitle"><label (click)="toggleTitle()">I want to show custom title on redirection page for better content extraction result.</label></legend>
     <input type="text" [(ngModel)]="title" (focus)="setFocus('title')" (blur)="setBlur('title')" *ngIf="showTitle" placeholder="Redirection title (optional)">
   </fieldset>
 
+  <div class="buttonArea">
+    <button class="btn bg-blue" (click)="shorten()" [disabled]="longURL.indexOf('http')===-1">Shorten URL</button>
+  </div>
+
   <div>
     <ul class="hint">
       <li>You can choose your own Short URL if you <a href="/user/signin">sign in!</a></li>
+      <li></li>
       <li>Original Long URL must be a Complete URL with HTTP/HTTPS protocol.</li>
       <li>All Gs-ShortURLs and click analytics are public and can be accessed by anyone.</li>
+      <li></li>
+      <li>Work in progress. Only random shortURL has been implemented so far.</li>
+      <li>Source code for this site is available on <a href="https://github.com/gentlespoon/ShortURL-js" target="_blank"><i class="fab fa-github"></i> GitHub</a></li>
+      <li>The old PHP implementation of full-featured working ShortURL (with customizable shortURL) is still available <a href="https://old.gtspn.com" target="_blank">here</a>.</li>
     </ul>
   </div>
 
-  <div>
-    <button class="btn bg-blue" (click)="shorten()">Shorten URL</button>
-  </div>
 
-  <ul>
-    <li class="urlPairList" *ngFor="let urlPair of shorturlService.urlPairs.reverse()">
+  <ul class="urlPairUL">
+    ShortURLs generated in this browsing session. [<span class="clickable" (click)="clear()">Clear Log</span>]
+    <li class="urlPairLI" *ngFor="let urlPair of shorturlService.urlPairs.reverse()">
       <div class="pairTitle">{{urlPair.title ? urlPair.title : 'Untitled'}}</div>
       <div class="pairShort">
         <button class="btn bg-blue btn-thin" (click)="copy(shorturlService.siteURL + urlPair.shortURL)">Copy</button>
@@ -37,3 +44,11 @@
   </ul>
 
 </div>
+
+
+<script>
+  grecaptcha.ready(function() {
+    grecaptcha.execute('6LcHM5QUAAAAACHSgtF-XvOoTh1K6T0osdigTiZo', {action: 'createRandom'}).then(function(token) {
+    });
+  });
+</script>

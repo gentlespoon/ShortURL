@@ -47,6 +47,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 var sUrouter = require('./routes/shortURL');
 app.use(sUrouter);
 
+app.use((req, res, next) => {
+  res.sendFile(path.join(__dirname, 'public/index.html'));
+});
+
 // Error handler
 app.use((err, req, res, next) => {
   let resObj = {

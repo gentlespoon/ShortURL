@@ -47,8 +47,7 @@ a {
   margin: 0 .2em;
 }
 .btn-thin {
-  padding-top: .2em;
-  padding-bottom: .2em;
+  padding: .2em .8em;
 }
 .bg-blue {
   color: white;
@@ -184,4 +183,11 @@ fieldset.focus legend {
   -moz-transition: color 0.3s ease;
   -ms-transition: color 0.3s ease;
   -o-transition: color 0.3s ease;
+}
+
+.clickable {
+  cursor: pointer;
+}
+.clickable:hover {
+  text-shadow: 0 0 1px darkgray;
 }

@@ -3,12 +3,12 @@
   <h3>Sign in to access your dashboard.</h3>
 
   <form (submit)="signin()">
-    <fieldset [class.focus]="focus.email">
+    <fieldset [class.focus]="focus['email']">
       <legend>Email</legend>
       <input type="text" [(ngModel)]="email" (focus)="setFocus('email')" (blur)="setBlur('email')" name="email">
     </fieldset>
 
-    <fieldset [class.focus]="focus.password">
+    <fieldset [class.focus]="focus['password']">
       <legend>Password</legend>
       <input type="password" [(ngModel)]="password" (focus)="setFocus('password')" (blur)="setBlur('password')" name="password">
     </fieldset>

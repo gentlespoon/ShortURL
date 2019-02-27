@@ -29,8 +29,13 @@ export class NewRandomComponent implements OnInit {
   }
 
   shorten(): void {
-    if (!this.longURL) return;
+    if (this.longURL.indexOf('http') === -1) return;
     this.shorturlService.newRandom(this.longURL, this.title);
+  }
+
+  clear(): void {
+    localStorage.setItem('urlPairs', '[]');
+    this.shorturlService.urlPairs = [];
   }
 
   copy(str: string): void {
