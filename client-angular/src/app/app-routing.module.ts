@@ -36,7 +36,7 @@ const routes: Routes = [
   },
   {
     path: 'help', children: [
-      {path: '', component: SessionComponent},
+      {path: '', component: HelpComponent},
       {path: 'privacyPolicy', component: PolicyPrivacyComponent},
       {path: 'usagePolicy', component: PolicyUsageComponent},
       {path: 'reportSpam', component: ReportSpamComponent},
