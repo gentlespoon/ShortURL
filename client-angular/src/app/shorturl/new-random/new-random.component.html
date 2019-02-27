@@ -28,10 +28,10 @@
   </div>
 
 
-  <ul class="urlPairUL">
+  <div class="urlPairList">
     ShortURLs generated in this browsing session. [<span class="clickable" (click)="clear()">Clear Log</span>]
-    <li class="urlPairLI" *ngFor="let urlPair of shorturlService.urlPairs.reverse()">
-      <div class="pairTitle">{{urlPair.title ? urlPair.title : 'Untitled'}}</div>
+    <fieldset *ngFor="let urlPair of shorturlService.urlPairs.slice().reverse()">
+      <legend>{{urlPair.title ? urlPair.title : 'Untitled'}}</legend>
       <div class="pairShort">
         <button class="btn bg-blue btn-thin" (click)="copy(shorturlService.siteURL + urlPair.shortURL)">Copy</button>
         <a href="{{shorturlService.siteURL + urlPair.shortURL}}" target="_blank">{{shorturlService.siteURL + urlPair.shortURL}}</a>
@@ -40,8 +40,8 @@
         <button class="btn bg-blue btn-thin" (click)="copy(shorturlService.siteURL + urlPair.shortURL)">Copy</button>
         <a href="{{urlPair.longURL}}" target="_blank">{{urlPair.longURL}}</a>
       </div>
-    </li>
-  </ul>
+    </fieldset>
+  </div>
 
 </div>
 
