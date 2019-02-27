@@ -34,6 +34,7 @@ router.all('/:url', (req, res, next) => {
   } else {
       // not found, log detailed unsuccessful redirection
       visitLog.log(req);
+      next();
       // res.redirect('/?e=NotFound');
     }
   });
