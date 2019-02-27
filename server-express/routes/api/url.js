@@ -44,7 +44,7 @@ router.post('/add', (req, res, next) => {
   if (UrlObj.short_url && !sanitizeShortURL(UrlObj.short_url)) UrlObj.short_url = null;
   if (!req.account_id) {
     // check for count(created-url-in-a-day)
-    db.query('SELECT id FROM url_pairs WHERE ip=? AND create_date>?', [req.ip, moment().add(-1, 'd').toISOString()], (err, result, fields) => {
+    db.query('SELECT id FROM url_pairs WHERE ip=? AND create_date>?', [req.clientIp, moment().add(-1, 'd').toISOString()], (err, result, fields) => {
       if (err) return res.send(api(0, 'Failed to check submission frequency.'));
       if (result.length > 20) {
         return res.send(api(0, 'Your IP have created more than the maximum number of short URL allowed for guests. Create an account to remove the limit.'));

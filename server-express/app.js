@@ -2,7 +2,8 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var logger = require('morgan');
-var expressip = require('express-ip');
+var requestIp = require('request-ip');
+var geoip = require('geoip-lite');
 var visitLog = require('./modules/visitLog');
 
 
@@ -16,11 +17,12 @@ var allowCORS = (req, res, next) => {
   next();
 }
 app.use(allowCORS);
-app.use(expressip().getIpInfoMiddleware);
+app.use(requestIp.mw())
 app.use((req, res, next) => {
-  req.location = null;
-  if (!req.ipInfo.error) {
-    req.location = req.ipInfo.city + ', ' + req.ipInfo.region + ', ' + req.ipInfo.country;
+  req.location = '';
+  req.loc = geoip.lookup(req.clientIp);
+  if (req.loc) {
+    req.location = req.loc.city + ', ' + req.loc.region + ', ' + req.loc.country;
   }
   next();
 });

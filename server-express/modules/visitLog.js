@@ -15,7 +15,7 @@ class VisitLog {
     });
     if (req.lookup_url === undefined) req.lookup_url = null;
     if (req.target_url === undefined) req.target_url = null;
-    var ip = req.ip + ' ' + req.connection.remoteAddress + ' ' + req.headers['x-forwarded-for']?req.headers['x-forwarded-for']:'';
+    var ip = req.clientIp;
     db.query('INSERT INTO history (request_url, short_url, long_url, request_time, ip, location, user_agent) VALUES (?, ?, ?, ?, ?, ?, ?)', [req.url, req.lookup_url, req.target_url, moment().toISOString(), ip, req.location, req.headers["user-agent"]], (err, result, fields) => {
       if (err) throw err;
     });
