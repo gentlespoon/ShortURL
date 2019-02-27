@@ -24,7 +24,7 @@ router.all('/', (req, res, next) => { res.send(api(0, '?')); });
 // add new pair
 router.post('/addRandom', (req, res, next) => {
   if (typeof req.body.long_url !== 'string' || req.body.long_url === '')
-    return res.send(api(0, 'API requires a JSON [url] parameter.'));
+    return res.send(api(0, 'API requires a JSON [long_url] parameter.'));
   // check for count(created-url-in-a-day)
   db.query('SELECT id FROM url_pairs WHERE ip=? AND create_date>?', [req.ip, moment().add(-1, 'd').toISOString()], (err, result, fields) => {
     if (err) return res.send(api(0, 'Failed to check submission frequency.'));
@@ -45,7 +45,7 @@ function addRandomURL(req, res, long_url, title, length, account_id, expiration)
   for (var i = 0; i < length; i++)
   short_url += possible.charAt(Math.floor(Math.random() * possible.length));
   db.query('SELECT id FROM url_pairs WHERE short_url=? AND (expire IS NULL OR expire>?)', [short_url, moment().toISOString()], (err, result, fields) => {
-    if (err) return res.send(api(0, 'Failed to add new URL pair.'));
+    if (err) return res.send(api(0, 'Failed to add new URL pair (1).'));
     if (result.length) {
       setTimeout(() => { addURL(req, res, long_url, title, length++, account_id, expiration); }, 0 );
       return;
@@ -62,7 +62,7 @@ function addURL(req, res, short_url, long_url, title, account_id, expiration) {
     short_url, long_url, create_date,            ip,     expire,     account_id, title) VALUES (
     ?,         ?,        ?,                      ?,      ?,          ?         , ?)`, [
     short_url, long_url, moment().toISOString(), req.ip, expiration, account_id, title], (err, result, fields) => {
-      if (err) return res.send(api(0, 'Failed to add new URL pair.'));
+      if (err) return res.send(api(0, 'Failed to add new URL pair (2).'));
       return res.send(api(1, short_url));
     })
 }

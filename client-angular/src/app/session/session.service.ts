@@ -27,7 +27,7 @@ export class SessionService {
   }
 
   public signin(email: string, password: string): void {
-    this.http.post<ApiResponse>('http://localhost:3000/api/user/login', JSON.stringify({email: email, password: password}), httpOptions)
+    this.http.post<ApiResponse>('/api/user/login', JSON.stringify({email: email, password: password}), httpOptions)
     .subscribe(response=> {
       if (response.result) {
         this.token = response.data['token'].toString();
@@ -43,7 +43,7 @@ export class SessionService {
   }
 
   public signup(email: string, password: string): void {
-    this.http.post<ApiResponse>('http://localhost:3000/api/user/register', JSON.stringify({email: email, password: password}), httpOptions)
+    this.http.post<ApiResponse>('/api/user/register', JSON.stringify({email: email, password: password}), httpOptions)
     .subscribe(response=> {
       if (response.result) {
         this.token = response.data['token'].toString();
@@ -59,7 +59,7 @@ export class SessionService {
   }
 
   public forgot(email: string): void {
-    this.http.post<ApiResponse>('http://localhost:3000/api/user/forgot', JSON.stringify({email: email}), httpOptions)
+    this.http.post<ApiResponse>('/api/user/forgot', JSON.stringify({email: email}), httpOptions)
     .subscribe(response=> {
       if (response.result) {
         this.messageService.newMessage(''+response.data);

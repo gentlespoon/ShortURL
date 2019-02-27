@@ -31,7 +31,7 @@ export class ShorturlService {
       return;
     }
 
-    this.http.post<ApiResponse>('http://localhost:3000/api/url/addRandom', JSON.stringify({long_url: longURL, title: title}), httpOptions)
+    this.http.post<ApiResponse>('/api/url/addRandom', JSON.stringify({long_url: longURL, title: title}), httpOptions)
     .subscribe(response=> {
       if (response.result) {
         var UrlObj = {shortURL: response.data, title: title, longURL: longURL};

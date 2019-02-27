@@ -27,7 +27,7 @@ export class EmailService {
 
   public lastCheckedEmailDuplicate = false;
   public checkDuplicateEmail(email: string): void {
-    this.http.post<ApiResponse>('http://localhost:3000/api/user/checkDuplicateEmail', JSON.stringify({email: email}), httpOptions)
+    this.http.post<ApiResponse>('/api/user/checkDuplicateEmail', JSON.stringify({email: email}), httpOptions)
     .subscribe(response=> {
       if (!response.result) {
         this.lastCheckedEmailDuplicate = true;
