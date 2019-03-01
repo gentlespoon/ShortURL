@@ -35,6 +35,7 @@ export class ShorturlService {
   }
 
   public loadList(): void {
+    // this.messageService.newMessage('Loading your URL list');
     this.http.post<ApiResponse>('/api/url/list', JSON.stringify({token: this.sessionService.token}), httpOptions)
     .subscribe(response=> {
       if (response.result) {
@@ -44,6 +45,7 @@ export class ShorturlService {
           this.urlPairs.push( new UrlPair(uO) );
         }
         localStorage.setItem('urlPairs', JSON.stringify(this.urlPairs));
+        // this.messageService.newMessage('URL list has been loaded.');
       } else {
         this.messageService.newMessage(response.data.toString(), null, 'alert-danger');
       }
@@ -70,6 +72,7 @@ export class ShorturlService {
         var urlObj = <object>response.data;
         this.urlPairs.push( new UrlPair(urlObj) );
         localStorage.setItem('urlPairs', JSON.stringify(this.urlPairs));
+        this.messageService.newMessage('Your URL has been created. Check it out in dashboard!');
       } else {
         this.messageService.newMessage(response.data.toString(), null, 'alert-danger');
       }
@@ -84,6 +87,7 @@ export class ShorturlService {
     .subscribe(response=> {
       if (response.result) {
         this.loadList();
+        this.messageService.newMessage('URL pair has been deleted.');
       } else {
         this.messageService.newMessage(response.data.toString(), null, 'alert-danger');
       }

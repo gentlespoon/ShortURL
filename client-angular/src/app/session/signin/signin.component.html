@@ -15,8 +15,8 @@
 
     <div class="buttonArea">
       <div><button class="btn bg-blue">Sign In</button></div>
-      <div><a href="/user/signup">Sign up</a></div>
-      <div><a href="/user/forget">Forgot your password?</a></div>
+      <div><a [routerLink]="['/user/signup']">Sign up</a></div>
+      <div><a [routerLink]="['/user/forget']">Forgot your password?</a></div>
     </div>
   </form>
 
@@ -26,11 +26,11 @@
 <div class="marginAuto col col-sm-12 col-md-10 col-lg-8 hint">
   <div class="row">
     <div class="col-sm-12 col-md-6">
-      If you <a href="/user/signin">sign in</a>,
+      If you <a [routerLink]="['/user/signin']">sign in</a>,
       <ul>
           <li>You can choose your preferred Short URL.</li>
           <li>Your control when the link expires.</li>
-          <li>Statistics will be available in your personal <a href="/dashboard">Dashboard</a>.</li>
+          <li>Statistics will be available in your personal <a [routerLink]="['/dashboard']">Dashboard</a>.</li>
       </ul>
     </div>
     <div class="col-sm-12 col-md-6">
@@ -38,7 +38,7 @@
       <ul>
         <li>Your will get randomly assigned Short URL.</li>
         <li>Your links will expire 1 year after creation.</li>
-        <li>Everyone can see statistics in guest's <a href="/dashboard">Dashboard</a>.</li>
+        <li>Everyone can see statistics in guest's <a [routerLink]="['/dashboard']">Dashboard</a>.</li>
       </ul>
     </div>
   </div>

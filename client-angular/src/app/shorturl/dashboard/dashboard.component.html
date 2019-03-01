@@ -41,7 +41,7 @@ white-space: nowrap;
           <a href="{{urlPair.long_url}}" target="_blank">{{urlPair.long_url}}</a>
         </td>
         <td title="" style="text-align: right;">{{urlPair.clicks}}</td>
-        <td title=""><a href="/info/{{urlPair.short_url}}"><i class="fas fa-info-circle"></i></a></td>
+        <td title=""><a href="/info/{{urlPair.short_url}}" target="_blank"><i class="fas fa-info-circle"></i></a></td>
         <td title="">{{moment(urlPair.expire).format('L')}}</td>
         <td title="" style="text-align: center;"><i class="clickable fas fa-trash" (click)="delete(urlPair.short_url)"></i></td>
       </tr>

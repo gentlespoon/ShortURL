@@ -39,7 +39,7 @@ router.post('/add', (req, res, next) => {
     long_url: req.body.long_url,
     short_url: req.account_id ? (req.body.short_url ? req.body.short_url : null) : null,
     title: req.body.title ? req.body.title : null,
-    expire: req.account_id ? (req.body.expire ? req.body.expire : moment('2099-12-31T23:59:59.000Z').toISOString()) : moment().add(1, 'y').toISOString(),
+    expire: req.account_id ? (req.body.expire ? moment(req.body.expire).toISOString() : moment('2099-12-31T23:59:59.000Z').toISOString()) : moment().add(1, 'y').toISOString(),
   };
   if (UrlObj.short_url && !sanitizeShortURL(UrlObj.short_url)) UrlObj.short_url = null;
   if (!req.account_id) {

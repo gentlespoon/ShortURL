@@ -20,7 +20,7 @@ export class NewurlComponent implements OnInit {
   expire = '';
 
   focus = {title: false, expire: false, short_url: false, long_url: false};
-  show = {title: true, expire: true, short_url: true};
+  show = {title: true, expire: false, short_url: true};
 
   constructor(
     public shorturlService: ShorturlService,
