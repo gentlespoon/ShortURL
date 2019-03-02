@@ -45,6 +45,7 @@ export class ResetComponent implements OnInit {
     }
     if (this.password !== this.passwordVerify) {
       this.messageService.newMessage('Passwords do not match.', null, 'alert-danger');
+      return;
     }
     var invalidPassword = this.sessionService.checkPasswordStrenth(this.password);
     if (invalidPassword) {
