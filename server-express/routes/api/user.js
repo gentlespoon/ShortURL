@@ -21,6 +21,15 @@ var auth = require('../../modules/auth');
 
 router.all('/', (req, res, next) => { res.send(api(0, '?')); });
 
+/*
+
+ #       ####   ####  # #    #
+ #      #    # #    # # ##   #
+ #      #    # #      # # #  #
+ #      #    # #  ### # #  # #
+ #      #    # #    # # #   ##
+ ######  ####   ####  # #    #
+*/
 router.post('/login', (req, res, next) => {
   // validate input type
   if (typeof req.body.email !== 'string' || req.body.email === ''
@@ -65,7 +74,16 @@ router.post('/checkDuplicateEmail', (req, res, next) => {
   }
 });
 
+/*
 
+ #####  ######  ####  #  ####  ##### ###### #####
+ #    # #      #    # # #        #   #      #    #
+ #    # #####  #      #  ####    #   #####  #    #
+ #####  #      #  ### #      #   #   #      #####
+ #   #  #      #    # # #    #   #   #      #   #
+ #    # ######  ####  #  ####    #   ###### #    #
+
+ */
 router.post('/register', (req, res, next) => {
   // validate input type
   if (typeof req.body.email !== 'string' || !email.validate(req.body.email)
@@ -76,7 +94,8 @@ router.post('/register', (req, res, next) => {
   // Check for duplicate username
   db_user.query("SELECT account_id, login_name FROM accounts WHERE email=? OR account_id=?", [req.body.email, account_id], (err, result, fields) => {
     if (err) return res.send(api(0, err));
-    if (result.length) return res.send(api(0, 'Email is already registered.'));
+    if (result.length)
+      return res.send(api(0, 'Email is already registered.'));
     // If username is not taken, check password strength.
     if (req.body.password.length < 8)
       return res.send(api(0, 'Password must not be shorter than 8 characters.'));
@@ -92,7 +111,7 @@ router.post('/register', (req, res, next) => {
       if (err) return res.send(api(0, err));
       // schedule a welcome email
       let mail = {
-        from: 'GsServices',
+        from: process.env.SMTP_FROM_d,
         to: req.body.email,
         subject: 'Welcome to Gs-ShortURL',
         html: email.template('register')
@@ -107,9 +126,19 @@ router.post('/register', (req, res, next) => {
   });
 });
 
+/*
 
-router.post('/forgot', (req, res, next) => {
-  if (typeof req.body.email !== 'string' || req.body.email === '') return res.send(api(0, 'Not enough info for retrieving password.'));
+ ######  ####  #####   ####  ###### #####
+ #      #    # #    # #    # #        #
+ #####  #    # #    # #      #####    #
+ #      #    # #####  #  ### #        #
+ #      #    # #   #  #    # #        #
+ #       ####  #    #  ####  ######   #
+
+ */
+router.post('/forget', (req, res, next) => {
+  if (typeof req.body.email !== 'string' || req.body.email === '')
+    return res.send(api(0, 'Not enough info for retrieving password.'));
   db_user.query('SELECT account_id FROM accounts WHERE email=?', [req.body.email], (err, result, fields) => {
     if (err) return res.send(api(0, err));
     if (result.length) {
@@ -119,7 +148,7 @@ router.post('/forgot', (req, res, next) => {
         if (err) return res.send(api(0, err));
         // schedule a welcome email
         let mail = {
-          from: 'me@gentlespoon.com',
+          from: process.env.SMTP_FROM_u,
           to: req.body.email,
           subject: 'Reset your password - Gs-ShortURL',
           html: email.template('forget').split('{{token}}').join(token)
@@ -134,29 +163,48 @@ router.post('/forgot', (req, res, next) => {
   })
 });
 
+
+/*
+                                    #######
+  ####  #    # ######  ####  #    #    #     ####  #    # ###### #    #
+ #    # #    # #      #    # #   #     #    #    # #   #  #      ##   #
+ #      ###### #####  #      ####      #    #    # ####   #####  # #  #
+ #      #    # #      #      #  #      #    #    # #  #   #      #  # #
+ #    # #    # #      #    # #   #     #    #    # #   #  #      #   ##
+  ####  #    # ######  ####  #    #    #     ####  #    # ###### #    #
+
+*/
 router.post('/checkToken', (req, res, next) => {
-  if (req.body.token) {
-    db_user.query('SELECT account_id FROM tokens WHERE token=? AND expire>? AND used=0 AND purpose=?', [req.body.token, moment().toISOString(), 'reset'], (err, result, fields) => {
-      if (err) return res.send(api(0, err));
-      if (result.length) {
-        var account_id = result[0].account_id;
-        db_user.query('UPDATE tokens SET used=1 WHERE token=?', [req.body.token], (err, result, fields) => {
-          if (err) res.send(api(0, 'Failed to update token status'));
-          req.session.resetAccount = account_id;
-          return res.send(api(1, 'Valid token'));
-        })
-      } else {
-        req.session.resetAccount = '';
-        return res.send(api(0, 'Invalid token'));
-      }
-    })
-  }
+  if (!req.body.token)
+    return res.send(api(0, 'Invalid reset token.'));
+  db_user.query('SELECT account_id FROM tokens WHERE token=? AND expire>? AND used=0 AND purpose=?', [req.body.token, moment().toISOString(), 'reset'], (err, result, fields) => {
+    if (err) return res.send(api(0, err));
+    if (result.length) {
+      var account_id = result[0].account_id;
+      db_user.query('UPDATE tokens SET used=1 WHERE token=?', [req.body.token], (err, result, fields) => {
+        if (err) res.send(api(0, 'Failed to update token status'));
+        return res.send(api(1, 'Valid token'));
+      })
+    } else {
+      return res.send(api(0, 'Invalid token'));
+    }
+  });
 });
 
+/*
+
+ #####  ######  ####  ###### #####
+ #    # #      #      #        #
+ #    # #####   ####  #####    #
+ #####  #           # #        #
+ #   #  #      #    # #        #
+ #    # ######  ####  ######   #
+
+*/
 router.post('/reset', (req, res, next) => {
   // validate input type
-  if (!req.session.resetAccount)
-    return res.send(api(0, 'Which account are you trying to reset?'));
+  if (!req.body.token)
+    return res.send(api(0, 'Invalid reset token.'));
   if (typeof req.body.password !== 'string' || req.body.password === '')
     return res.send(api(0, 'Incomplete credentials.'));
   // Check password strength.
@@ -168,10 +216,15 @@ router.post('/reset', (req, res, next) => {
     return res.send(api(0, 'Password must contain at least 1 lower case letter.'));
   if (req.body.password.match(/[0-9]/g) === null)
     return res.send(api(0, 'Password must contain at least 1 digit.'));
-  var hash = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10));
-  db_user.query("UPDATE accounts SET password=? WHERE account_id=?", [hash, req.session.resetAccount], (err, result, fields) => {
-    if (err) return res.send(api(0, 'Failed to reset password.'));
-    return res.send(api(1, 'Password has been reset.'));
+  db_user.query('SELECT account_id FROM tokens WHERE token=? AND expire>? AND used=1 AND purpose=?', [req.body.token, moment().toISOString(), 'reset'], (err, result, fields) => {
+    if (err) return res.send(api(0, err));
+    if (!result.length) return res.send(api(0, 'Invalid reset token.'));
+    db_user.query("UPDATE tokens SET used=2 WHERE token=?", [req.body.token]);
+    var hash = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10));
+    db_user.query("UPDATE accounts SET password=? WHERE account_id=?", [hash, result[0].account_id], (err, result, fields) => {
+      if (err) return res.send(api(0, 'Failed to reset password.'));
+      return res.send(api(1, 'Password has been reset.'));
+    });
   });
 });
 

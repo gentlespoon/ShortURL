@@ -1,8 +1,10 @@
 <div class="marginAuto col col-sm-12 col-md-8 col-lg-6">
 
-  <h3>Forgot your password.</h3>
+  <h2>Forgot your password.</h2>
   <p>People do forget passwords. That is OK.</p>
   <p>We will send you an email with a link to reset your password.</p>
+  <p style="color: red;">Notice: This will reset the password for your GsServices account.</p>
+
 
   <form (submit)="forget()">
     <fieldset [class.focus]="focus['email']">
@@ -16,6 +18,7 @@
       <div><a [routerLink]="['/user/signup']">Do not have an account?</a></div>
     </div>
   </form>
+
 
 </div>
 

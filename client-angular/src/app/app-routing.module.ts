@@ -8,7 +8,7 @@ import { NgModule } from '@angular/core';
 import { PolicyPrivacyComponent } from './static/policy-privacy/policy-privacy.component';
 import { PolicyUsageComponent } from './static/policy-usage/policy-usage.component';
 import { ReportSpamComponent } from './static/report-spam/report-spam.component';
-import { RetrieveComponent } from './session/retrieve/retrieve.component';
+import { ResetComponent } from './session/reset/reset.component';
 import { SessionComponent } from './session/session.component';
 import { SigninComponent } from './session/signin/signin.component';
 import { SignupComponent } from './session/signup/signup.component';
@@ -24,7 +24,7 @@ const routes: Routes = [
       {path: 'signin', component: SigninComponent },
       {path: 'signup', component: SignupComponent },
       {path: 'forget', component: ForgetComponent },
-      {path: 'retrieve', component: RetrieveComponent },
+      {path: 'reset/:token', component: ResetComponent },
     ]
   },
   {
@@ -51,3 +51,5 @@ const routes: Routes = [
 
 
 export class AppRoutingModule { }
+
+

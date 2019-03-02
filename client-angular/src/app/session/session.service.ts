@@ -4,6 +4,7 @@ import { ApiResponse } from '../classes/apiResponse.class';
 import { Injectable } from '@angular/core';
 import { MessageService } from '../message/message.service';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -58,8 +59,20 @@ export class SessionService {
     });
   }
 
+  public checkPasswordStrenth(password: string): string {
+    if (password.length < 8)
+      return 'Password must not be shorter than 8 characters.';
+    if (password.match(/[A-Z]/g) === null)
+      return 'Password must contain at least 1 upper case letter.';
+    if (password.match(/[a-z]/g) === null)
+      return 'Password must contain at least 1 lower case letter.';
+    if (password.match(/[0-9]/g) === null)
+      return 'Password must contain at least 1 digit.';
+    return '';
+  }
+
   public forgot(email: string): void {
-    this.http.post<ApiResponse>('/api/user/forgot', JSON.stringify({email: email}), httpOptions)
+    this.http.post<ApiResponse>('/api/user/forget', JSON.stringify({email: email}), httpOptions)
     .subscribe(response=> {
       if (response.result) {
         this.messageService.newMessage(''+response.data);
@@ -69,11 +82,20 @@ export class SessionService {
     });
   }
 
+  public checkToken(token: string): Observable<ApiResponse> {
+    return this.http.post<ApiResponse>('/api/user/checkToken', JSON.stringify({token: token}), httpOptions);
+  }
+
+  public reset(token: string, password: string): Observable<ApiResponse> {
+    return this.http.post<ApiResponse>('/api/user/reset', JSON.stringify({token: token, password: password}), httpOptions);
+  }
+
   public signout(): void {
     this.token = '';
     this.username = 'Guest';
     localStorage.setItem('token', this.token);
     localStorage.setItem('username', this.username);
+    localStorage.setItem('urlPairs', '[]');
   }
 
   public isAuthed(): boolean {

@@ -35,12 +35,13 @@ export class SignupComponent implements OnInit {
       this.messageService.newMessage('This email address is already registered.', null, 'alert-danger');
       return;
     }
-    if (this.password.length < 8) {
-      this.messageService.newMessage('Passwords must be at least 8 characters.', null, 'alert-danger');
-      return;
-    }
     if (this.password !== this.passwordVerify) {
       this.messageService.newMessage('Passwords do not match.', null, 'alert-danger');
+      return;
+    }
+    var invalidPassword = this.sessionService.checkPasswordStrenth(this.password);
+    if (invalidPassword) {
+      this.messageService.newMessage(invalidPassword, null, 'alert-danger');
       return;
     }
     this.sessionService.signup(this.email, this.password);

@@ -5,8 +5,10 @@
 
     <!-- Float right has reversed order -->
     <!-- <a class="header-item right" href="/user/signup" *ngIf="!sessionService.token.length">Sign Up</a> -->
-    <a class="header-item right" *ngIf="sessionService.token.length" (click)="signout()">Sign Out</a>
+    <a class="header-item right" [routerLink]="['/']" *ngIf="sessionService.token.length" (click)="signout()">Sign Out</a>
     <a class="header-item right" [routerLink]="['/user/signin']" *ngIf="!sessionService.token.length">Sign In</a>
-    <a class="header-item right" [routerLink]="['/dashboard']">{{sessionService.username}}'s Dashboard</a>
+    <a class="header-item right" [routerLink]="['/dashboard']">Dashboard</a>
+    <a class="header-item right" href="https://account.gentlespoon.com/">{{sessionService.username}}</a>
   </div>
+
 </div>

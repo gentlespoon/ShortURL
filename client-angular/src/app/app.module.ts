@@ -16,12 +16,12 @@ import { NgModule } from '@angular/core';
 import { PolicyPrivacyComponent } from './static/policy-privacy/policy-privacy.component';
 import { PolicyUsageComponent } from './static/policy-usage/policy-usage.component';
 import { ReportSpamComponent } from './static/report-spam/report-spam.component';
-import { RetrieveComponent } from './session/retrieve/retrieve.component';
 import { SessionComponent } from './session/session.component';
 import { SessionService } from './session/session.service';
 import { SigninComponent } from './session/signin/signin.component';
 import { SignupComponent } from './session/signup/signup.component';
 import { TermsOfServiceComponent } from './static/terms-of-service/terms-of-service.component';
+import { ResetComponent } from './session/reset/reset.component';
 
 @NgModule({
   declarations: [
@@ -36,11 +36,11 @@ import { TermsOfServiceComponent } from './static/terms-of-service/terms-of-serv
     PolicyPrivacyComponent,
     PolicyUsageComponent,
     ReportSpamComponent,
-    RetrieveComponent,
     SessionComponent,
     SigninComponent,
     SignupComponent,
     TermsOfServiceComponent,
+    ResetComponent,
   ],
   imports: [
     AppRoutingModule,

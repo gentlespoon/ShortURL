@@ -41,7 +41,7 @@ export class ShorturlService {
       if (response.result) {
         this.urlPairs = [];
         for (var uO of response.data) {
-          console.log(uO);
+          // console.log(uO);
           this.urlPairs.push( new UrlPair(uO) );
         }
         localStorage.setItem('urlPairs', JSON.stringify(this.urlPairs));
