@@ -111,7 +111,7 @@ router.all('/list', (req, res, next) => {
   req.account_id = authGuard.validate(req.body.token);
   var limit = ''; var account = '=?';
   if (!req.account_id) { limit = ' LIMIT 100'; account = '=? OR account_id IS NULL'; req.accound_id=''; }
-  db.query('SELECT * FROM url_pairs WHERE account_id ' + account + ' ORDER BY create_date' + limit, [req.account_id], (err, result, fields) => {
+  db.query('SELECT * FROM url_pairs WHERE account_id ' + account + ' ORDER BY create_date DESC' + limit, [req.account_id], (err, result, fields) => {
     if (err) return res.send(api(0, 'Failed to get URL list'));
     return res.send(api(1, result));
   });
@@ -124,6 +124,28 @@ router.post('/delete', authGuard.middleware, (req, res, next) => {
     return res.send(api(1));
   });
 });
+
+
+router.post('/info', (req, res, next) => {
+  if (!req.body.short_url) return res.send(api(0, 'API Requires a JSON [short_url] parameter.'));
+  req.account_id = authGuard.validate(req.body.token);
+  var account = '=?';
+  var params = [req.body.short_url];
+  if (!req.account_id) { account = ' IS NULL'; } else { params.push(req.account_id); }
+  db.query('SELECT * FROM url_pairs WHERE short_url=? AND account_id ' + account + ' ORDER BY create_date DESC', params, (err, result, fields) => {
+    if (err) return res.send(api(0, 'Failed to get URL detail'));
+    if (!result.length)
+      return res.send(api(0, 'Short URL does not exist.'));
+    db.query('SELECT * FROM history WHERE short_url=? ORDER BY request_time DESC', [req.body.short_url], (err, result2, fields) => {
+      if (err) return res.send(api(0, 'Failed to get URL history'));
+      result[0]['history'] = [];
+      if (result2.length) {
+        result[0]['history'] = result2;
+      }
+      return res.send(api(1, result[0]));
+    });
+  });
+})
 
 
 

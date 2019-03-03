@@ -6,7 +6,8 @@ import { ApiResponse } from '../classes/apiResponse.class';
 import { Injectable } from '@angular/core';
 import { MessageService } from '../message/message.service';
 import { SessionService } from '../session/session.service';
-import { UrlPair } from './urlpair';
+import { UrlPair } from '../classes/urlpair';
+import { Observable } from 'rxjs';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -94,5 +95,8 @@ export class ShorturlService {
     });
   }
 
+  public getInfo(short_url: string): Observable<ApiResponse> {
+    return this.http.post<ApiResponse>('/api/url/info', JSON.stringify({token: this.sessionService.token, short_url: short_url}), httpOptions);
+  }
 
 }

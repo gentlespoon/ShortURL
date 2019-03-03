@@ -1,0 +1,53 @@
+table {
+  width: 100%;
+}
+
+th, td {
+  padding: 0 .4em;
+}
+
+table.info th,
+table.info td {
+  height: 2em;
+}
+
+table.info > tbody > tr > th {
+  text-align: left;
+  padding-right: 1em;
+  vertical-align: top;
+}
+
+table.history {
+  /* border: 1px solid lightgray; */
+  border-collapse: collapse;
+  /* table-layout: fixed; */
+  /* overflow: hidden; */
+  width: 100%;
+}
+
+table.history tbody.histBody td:not(:last-child) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+table.history tbody.histBody td:last-child {
+  font-size: 0.8em;
+}
+
+table.history > tbody.histBody > tr:nth-child(2n-1) {
+  background-color: #eeeeee;
+}
+table.history > tbody.histBody > tr:hover {
+  background-color: #dddddd;
+}
+
+
+
+td.nr {
+  text-align: center;
+  vertical-align: middle;
+  font-size: 1.5em;
+  color: darkgray;
+  height: 5em !important;
+}

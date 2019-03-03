@@ -237,3 +237,11 @@ fieldset.focus legend {
 .hint li:hover {
   color: black;
 }
+
+
+a.navBtn {
+  font-size: 1.5em;
+  margin-right: .5em;
+  padding: .5em;
+  border-radius: .5em;
+}

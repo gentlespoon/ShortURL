@@ -13,6 +13,7 @@ import { SessionComponent } from './session/session.component';
 import { SigninComponent } from './session/signin/signin.component';
 import { SignupComponent } from './session/signup/signup.component';
 import { TermsOfServiceComponent } from './static/terms-of-service/terms-of-service.component';
+import { InfoComponent } from './shorturl/info/info.component';
 
 const routes: Routes = [
   {
@@ -31,6 +32,9 @@ const routes: Routes = [
     path: 'dashboard', children: [
       {path: '', component: DashboardComponent},
     ]
+  },
+  {
+    path: 'info/:short_url', component: InfoComponent,
   },
   {
     path: 'help', children: [

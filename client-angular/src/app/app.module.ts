@@ -22,6 +22,7 @@ import { SigninComponent } from './session/signin/signin.component';
 import { SignupComponent } from './session/signup/signup.component';
 import { TermsOfServiceComponent } from './static/terms-of-service/terms-of-service.component';
 import { ResetComponent } from './session/reset/reset.component';
+import { InfoComponent } from './shorturl/info/info.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { ResetComponent } from './session/reset/reset.component';
     SignupComponent,
     TermsOfServiceComponent,
     ResetComponent,
+    InfoComponent,
   ],
   imports: [
     AppRoutingModule,

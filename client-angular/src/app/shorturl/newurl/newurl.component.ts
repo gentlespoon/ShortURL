@@ -5,7 +5,7 @@ import { EmailService } from '../email.service';
 import { MessageService } from 'src/app/message/message.service';
 import { SessionService } from 'src/app/session/session.service';
 import { ShorturlService } from '../shorturl.service';
-import { UrlPair } from '../urlpair';
+import { UrlPair } from '../../classes/urlpair';
 
 @Component({
   selector: 'app-newurl',
