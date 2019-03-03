@@ -53,7 +53,7 @@ export class ShorturlService {
     });
   }
 
-  public newUrlPair(urlPair: UrlPair): void {
+  public newUrlPair(urlPair: UrlPair): Observable<ApiResponse> {
     if (!urlPair.long_url) {
       this.messageService.newMessage('long_url cannot be empty.', null, 'alert-danger');
       return;
@@ -67,17 +67,8 @@ export class ShorturlService {
     }
     if (!urlPair.expire) urlPair.expire = moment().add(1, 'y').toISOString();
 
-    this.http.post<ApiResponse>('/api/url/add', JSON.stringify({...urlPair, token: this.sessionService.token}), httpOptions)
-    .subscribe(response=> {
-      if (response.result) {
-        var urlObj = <object>response.data;
-        this.urlPairs.push( new UrlPair(urlObj) );
-        localStorage.setItem('urlPairs', JSON.stringify(this.urlPairs));
-        this.messageService.newMessage('Your URL has been created. Check it out in dashboard!');
-      } else {
-        this.messageService.newMessage(response.data.toString(), null, 'alert-danger');
-      }
-    });
+    return this.http.post<ApiResponse>('/api/url/add', JSON.stringify({...urlPair, token: this.sessionService.token}), httpOptions);
+
   }
 
   public delete(short_url: string): void {

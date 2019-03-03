@@ -77,6 +77,9 @@ function prepareShortURL(req, res, length, UrlObj) {
 
 
 function addURL(req, res, UrlObj) {
+  if (!req.account_id) {
+    req.account_id = null;
+  }
   db.query(`INSERT INTO url_pairs (
     short_url, long_url, create_date,            ip,     expire,     account_id, title) VALUES (
     ?,         ?,        ?,                      ?,      ?,          ?         , ?)`, [

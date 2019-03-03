@@ -6,6 +6,7 @@ import { MessageService } from 'src/app/message/message.service';
 import { SessionService } from 'src/app/session/session.service';
 import { ShorturlService } from '../shorturl.service';
 import { UrlPair } from '../../classes/urlpair';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-newurl',
@@ -28,6 +29,7 @@ export class NewurlComponent implements OnInit {
     public emailService: EmailService,
     private _clipboardService: ClipboardService,
     public sessionService: SessionService,
+    private _router: Router,
   ) { }
 
   ngOnInit() {
@@ -41,7 +43,17 @@ export class NewurlComponent implements OnInit {
       title: this.show['title'] && this.title ? this.title : '',
       expire: this.show['expire'] && this.expire ? this.expire : '',
     };
-    this.shorturlService.newUrlPair(new UrlPair(urlObj));
+    this.shorturlService.newUrlPair(new UrlPair(urlObj)).subscribe(response=> {
+      if (response.result) {
+        var urlObj = <object>response.data;
+        this.shorturlService.urlPairs.push( new UrlPair(urlObj) );
+        localStorage.setItem('urlPairs', JSON.stringify(this.shorturlService.urlPairs));
+        this.messageService.newMessage('Short URL has been created.');
+        this._router.navigate(['/info/' + urlObj['short_url']]);
+      } else {
+        this.messageService.newMessage(response.data.toString(), null, 'alert-danger');
+      }
+    });
   }
 
   clear(): void {
