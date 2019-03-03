@@ -31,7 +31,7 @@ export class InfoComponent implements OnInit {
     this.shorturlService.getInfo(this.route.snapshot.paramMap.get("short_url")).subscribe(response => {
       if (response.result) {
         this.urlPair = <UrlPair>response.data;
-        console.log(this.urlPair);
+        // console.log(this.urlPair);
       } else {
         this.messageService.newMessage(response.data, null, 'alert-danger');
         this._router.navigate(['/dashboard']);

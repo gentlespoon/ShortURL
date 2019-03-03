@@ -65,7 +65,7 @@ export class ShorturlService {
         return;
       }
     }
-    if (!urlPair.expire) urlPair.expire = moment().add(1, 'y').toISOString();
+    if (!urlPair.expire) urlPair.expire = '';
 
     return this.http.post<ApiResponse>('/api/url/add', JSON.stringify({...urlPair, token: this.sessionService.token}), httpOptions);
 
