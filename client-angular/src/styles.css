@@ -158,27 +158,27 @@ input[type="password"]:active {
 }
 
 fieldset {
-  border: 2px solid lightgray;
+  /* border: 2px solid lightgray; */
+  border: none;
+  box-shadow: inset 0 0 0 1px lightgray;
   border-radius: .4em;
   -webkit-border-radius: .4em;
   -moz-border-radius: .4em;
   -ms-border-radius: .4em;
   -o-border-radius: .4em;
   padding: 0 .2em .2em .2em;
-  transition: border 0.3s ease;
-  -webkit-transition: border 0.3s ease;
-  -moz-transition: border 0.3s ease;
-  -ms-transition: border 0.3s ease;
-  -o-transition: border 0.3s ease;
+  transition: box-shadow 0.3s ease;
   margin-top: .5em;
 }
 fieldset.focus {
-  border: 2px solid #0060a0;
-  transition: border 0.3s ease;
-  -webkit-transition: border 0.3s ease;
-  -moz-transition: border 0.3s ease;
-  -ms-transition: border 0.3s ease;
-  -o-transition: border 0.3s ease;
+  /* border: 2px solid #006688 !important; */
+  box-shadow: inset 0 0 0 2px #006688 !important;
+}
+
+fieldset:hover {
+  box-shadow: inset 0 0 0 1px #006688;
+  /* border: 2px solid #00668891; */
+  /* transition: border 0.3s ease; */
 }
 
 legend {
@@ -189,19 +189,12 @@ legend {
   font-size: initial;
   width: initial;
   transition: color 0.3s ease;
-  -webkit-transition: color 0.3s ease;
-  -moz-transition: color 0.3s ease;
-  -ms-transition: color 0.3s ease;
-  -o-transition: color 0.3s ease;
+  background-color: white;
 }
 
 fieldset.focus legend {
-  color: #0060a0;
+  color: #006688;
   transition: color 0.3s ease;
-  -webkit-transition: color 0.3s ease;
-  -moz-transition: color 0.3s ease;
-  -ms-transition: color 0.3s ease;
-  -o-transition: color 0.3s ease;
 }
 
 .clickable {
@@ -240,8 +233,14 @@ fieldset.focus legend {
 
 
 a.navBtn {
+  color: rgba(0, 0, 0, 0.6);
+  transition: color 0.3s ease;
   font-size: 1.5em;
   margin-right: .5em;
   padding: .5em;
   border-radius: .5em;
+}
+a.navBtn:hover {
+  color: rgba(0, 0, 0, 1);
+  transition: color 0.3s ease;
 }
