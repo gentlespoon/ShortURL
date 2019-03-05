@@ -44,6 +44,9 @@ const routes: Routes = [
       {path: 'reportSpam', component: ReportSpamComponent},
       {path: 'termsOfService', component: TermsOfServiceComponent}
     ]
+  },
+  {
+    path: '**', redirectTo: '/', pathMatch: 'full'
   }
 ];
 
