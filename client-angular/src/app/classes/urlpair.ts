@@ -3,6 +3,7 @@ export class UrlPair {
   long_url: string = '';
   title: string = '';
   expire: string = '';
+  create_date: string = '';
   clicks: number = 0;
   history: any[] = [];
 
@@ -11,6 +12,7 @@ export class UrlPair {
     this.long_url = UPobj['long_url'] ? UPobj['long_url'] : '';
     this.title = UPobj['title'] ? UPobj['title'] : '';
     this.expire = UPobj['expire'] ? UPobj['expire'] : '';
+    this.create_date = UPobj['create_date'] ? UPobj['create_date'] : '';
     this.clicks = UPobj['clicks'] ? UPobj['clicks'] : 0;
     this.history = [];
     if (typeof UPobj['history'] === 'object' && UPobj['history'].length) {
