@@ -96,6 +96,8 @@ export class SessionService {
 
   public signOut(): void {
     this.killSession();
+    localStorage.setItem('pendingRedirectUrl', this.router.url);
+    window.location.href = `https://account.gentlespoon.com/signout?redirect=${window.location.origin}`;
   }
 
   public isAuthed(): boolean {

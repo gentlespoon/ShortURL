@@ -6,8 +6,8 @@
     <!-- Float right has reversed order -->
     <!-- <a class="header-item right" href="/user/signup" *ngIf="!sessionService.token.length">Sign Up</a> -->
     
-    <a class="header-item right clickable" *ngIf="sessionService.token" (click)="signout()">Sign Out</a>
-    <a class="header-item right clickable" *ngIf="sessionService.token" href="https://account.gentlespoon.com/landing">{{sessionService.username}}</a>
+    <a class="header-item right clickable" *ngIf="sessionService.token" (click)="sessionService.signOut()">Sign Out</a>
+    <a class="header-item right clickable" *ngIf="sessionService.token" href="https://account.gentlespoon.com/profile">{{sessionService.username}}</a>
 
     <a class="header-item right clickable" *ngIf="!sessionService.token" (click)="sessionService.signIn()">Sign In</a>
     

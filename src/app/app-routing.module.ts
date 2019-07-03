@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { NewurlComponent } from './components/newurl/newurl.component';
 
 
 const routes: Routes = [
-  // { path: '', component: NewurlComponent },
+  { path: '', component: NewurlComponent },
   // {
   //   path: 'user', children: [
   //     {path: '', component: SessionComponent},

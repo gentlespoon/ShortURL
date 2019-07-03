@@ -12,13 +12,13 @@
     <small *ngIf="show['title']">Redirection title (optional)</small>
   </fieldset>
 
-  <fieldset [class.focus]="focus['short_url']" *ngIf="sessionService.token.length">
-    <legend><input type="checkbox" [(ngModel)]="show['short_url']"><label (click)="toggle('short_url')">Use your preferred ShortURL.</label></legend>
+  <fieldset [class.focus]="focus['short_url']">
+    <legend><input type="checkbox" [checked]="show['short_url']" (click)="toggle('short_url')"><label (click)="toggle('short_url')">Use your preferred ShortURL.</label></legend>
     <input type="text" [(ngModel)]="short_url" (focus)="setFocus('short_url')" (blur)="setBlur('short_url')" *ngIf="show['short_url']">
     <small *ngIf="show['short_url']">Preferred ShortURL (optional)</small>
   </fieldset>
 
-  <fieldset [class.focus]="focus['expire']" *ngIf="sessionService.token.length">
+  <fieldset [class.focus]="focus['expire']">
     <legend><input type="checkbox" [(ngModel)]="show['expire']"><label (click)="toggle('expire')">Set an expiration date.</label></legend>
     <input type="date" [(ngModel)]="expire" (focus)="setFocus('expire')" (blur)="setBlur('expire')" *ngIf="show['expire']">
     <small *ngIf="show['expire']">Expiration date (optional)</small>
@@ -32,15 +32,15 @@
     <ul class="hint">
       <li *ngIf="!sessionService.token.length">
         <div class="row">
-          <div class="col-sm-12 col-md-6">
-            If you <a [routerLink]="['/user/signin']">sign in</a>,
+          <div class="col-sm-12 col-lg-6">
+            If you <a class="clickable" (click)="sessionService.signIn()">sign in</a>,
             <ul>
                 <li>You can choose your preferred Short URL.</li>
                 <li>Your control when the link expires.</li>
                 <li>Stats will be available in your personal <a [routerLink]="['/dashboard']">Dashboard</a>.</li>
             </ul>
           </div>
-          <div class="col-sm-12 col-md-6">
+          <div class="col-sm-12 col-lg-6">
             As a guest,
             <ul>
               <li>Your will get randomly assigned Short URL.</li>
@@ -59,7 +59,7 @@
         </ul>
       </li>
 
-      <li style="margin-top: 1em;">Source code for this site is available on <a href="https://github.com/gentlespoon/ShortURL-js" target="_blank"><i class="fab fa-github"></i> GitHub</a></li>
+      <li style="margin-top: 1em;">Source code for this site is available on <a href="https://github.com/gentlespoon/ShortURL" target="_blank"><i class="fab fa-github"></i> GitHub</a></li>
     </ul>
   </div>
 

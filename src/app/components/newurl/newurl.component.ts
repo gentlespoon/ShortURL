@@ -19,7 +19,7 @@ export class NewurlComponent implements OnInit {
   expire = '';
 
   focus = {title: false, expire: false, short_url: false, long_url: false};
-  show = {title: true, expire: false, short_url: true};
+  show = {title: true, expire: false, short_url: false};
 
   constructor(
     public shorturlService: ShorturlService,
@@ -62,6 +62,14 @@ export class NewurlComponent implements OnInit {
   }
 
   toggle(str: string): void {
+    switch(str) {
+      case 'short_url':
+      case 'expire':
+        if (!this.sessionService.token) {
+          alert('This option is available to registered users only');
+          return;
+        }
+    }
     this.show[str] = !this.show[str];
   }
   setFocus(name: string): void {

@@ -10,19 +10,7 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     public sessionService: SessionService
-  ) {
-
-  }
-
-  signInLandingUrl = window.location.origin + '/signInLanding';
-
-  signout() {
-    this.sessionService.signOut();
-  }
-
-  signIn() {
-    this.sessionService.signIn();
-  }
+  ) {}
 
   ngOnInit() {
   }
