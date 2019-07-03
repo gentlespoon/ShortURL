@@ -1,0 +1,67 @@
+<a href="javascript:history.back()" class="navBtn"><i class="fas fa-arrow-alt-circle-left"></i></a>
+<a (click)="ngOnInit()" class="navBtn clickable"><i class="fas fa-redo-alt"></i></a>
+
+<div *ngIf="urlPair">
+  <h2>Statistics - {{urlPair.short_url}}</h2>
+
+  <table class="info">
+    <tr>
+      <th>Title</th>
+      <td><strong>{{urlPair.title}}</strong></td>
+    </tr>
+    <tr>
+      <th>Short URL</th>
+      <td>
+        <button class="btn bg-blue btn-thin" (click)="copy(shorturlService.siteURL + urlPair.short_url)"><i class="far fa-copy"></i></button>
+        <a href="{{shorturlService.siteURL + urlPair.short_url}}" target="_blank">{{urlPair.short_url}}</a>
+      </td>
+    </tr>
+    <tr>
+      <th>Long URL</th>
+      <td>
+        <button class="btn bg-blue btn-thin" (click)="copy(urlPair.long_url)"><i class="far fa-copy"></i></button>
+        <a href="{{urlPair.long_url}}" target="_blank">{{urlPair.long_url}}</a>
+      </td>
+    </tr>
+    <tr>
+      <th>Create Date</th>
+      <td>{{moment(urlPair.create_date).format('L')}}</td>
+    </tr>
+    <tr>
+      <th>Expiration Date</th>
+      <td>{{moment(urlPair.expire).format('L')}}</td>
+    </tr>
+    <tr>
+      <th>Total Visits</th>
+      <td>{{urlPair.clicks}}</td>
+    </tr>
+    <tr>
+      <th>History</th>
+      <td>
+        <table class="history">
+          <thead>
+            <tr>
+              <th>URL</th>
+              <th>Time</th>
+              <th>IP</th>
+              <th>Location</th>
+              <th>User Agent</th>
+            </tr>
+          </thead>
+          <tbody class="nrBody" *ngIf="!urlPair.history.length">
+            <tr><td class="nr" colspan="5">No Record</td></tr>
+          </tbody>
+          <tbody class="histBody" *ngIf="urlPair.history.length">
+            <tr *ngFor="let hist of urlPair.history">
+              <td class="url">{{hist.request_url}}</td>
+              <td class="time">{{moment(hist.request_time).format('llll')}}</td>
+              <td class="ip">{{hist.ip}}</td>
+              <td class="loc">{{hist.location}}</td>
+              <td class="ua">{{hist.user_agent}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </td>
+    </tr>
+  </table>
+</div>

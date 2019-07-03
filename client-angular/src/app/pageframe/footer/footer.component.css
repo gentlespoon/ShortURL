@@ -1,0 +1,23 @@
+.footer {
+  bottom: 0;
+  /* position: absolute; */
+  /* width: 100%; */
+  color: white;
+  padding-bottom: .5em;
+  margin-top: .5em;
+}
+
+.footer .item {
+  padding: 0 1em;
+  color: white;
+  font-size: .8em;
+}
+.footer .item:hover {
+  text-decoration: none;
+}
+.footer .item:first-child {
+  padding-left: 0;
+}
+.footer .item:not(:last-child) {
+  border-right: 1px solid lightgray;
+}

@@ -1,0 +1,10 @@
+<div class="msgContainer">
+  <div *ngFor="let msg of messageService.messages.slice().reverse(); let i = index">
+    <div class="item alert {{msg.style}}">
+      <i class="clickable fas fa-times" *ngIf="msg.dismissible" (click)="dismiss(i)"></i>
+      <span class="msgBody">{{msg.message}}</span>&nbsp;
+      <span *ngIf="msg.detail.length" class="clickable" (click)="alertDetail(msg.detail)">[detail]</span>&nbsp;
+      <small *ngIf="msg.timeout>0">({{msg.timeout}})</small>&nbsp;
+    </div>
+  </div>
+</div>

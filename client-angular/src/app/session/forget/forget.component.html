@@ -1,0 +1,48 @@
+<a href="javascript:history.back()" class="navBtn"><i class="fas fa-arrow-alt-circle-left"></i></a>
+<div class="marginAuto col col-sm-12 col-md-8 col-lg-6">
+
+  <h2>Forgot your password.</h2>
+  <p>People do forget passwords. That is OK.</p>
+  <p>We will send you an email with a link to reset your password.</p>
+  <p style="color: red;">Notice: This will reset the password for your GsServices account.</p>
+
+
+  <form (submit)="forget()">
+    <fieldset [class.focus]="focus['email']">
+      <legend>Email</legend>
+      <input type="text" [(ngModel)]="email" (focus)="setFocus('email')" (blur)="setBlur('email')" name="email">
+    </fieldset>
+
+    <div class="buttonArea">
+      <div><button class="btn bg-blue">Send email</button></div>
+      <div><a [routerLink]="['/user/signin']">Sign in</a></div>
+      <div><a [routerLink]="['/user/signup']">Do not have an account?</a></div>
+    </div>
+  </form>
+
+
+</div>
+
+
+
+
+<div class="marginAuto col col-sm-12 col-md-10 col-lg-8 hint">
+  <div class="row">
+    <div class="col-sm-12 col-md-6">
+      If you <a [routerLink]="['/user/signin']">sign in</a>,
+      <ul>
+          <li>You can choose your preferred Short URL.</li>
+          <li>Your control when the link expires.</li>
+          <li>Statistics will be available in your personal <a [routerLink]="['/dashboard']">Dashboard</a>.</li>
+      </ul>
+    </div>
+    <div class="col-sm-12 col-md-6">
+      As a guest,
+      <ul>
+        <li>Your will get randomly assigned Short URL.</li>
+        <li>Your links will expire 1 year after creation.</li>
+        <li>Everyone can see statistics in guest's <a [routerLink]="['/dashboard']">Dashboard</a>.</li>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,23 @@
+<a href="javascript:history.back()" class="navBtn"><i class="fas fa-arrow-alt-circle-left"></i></a>
+<div class="marginAuto col col-sm-12 col-md-8 col-lg-6">
+
+  <h2>Reset Password - enter your new password</h2>
+
+  <form (submit)="reset()">
+
+    <fieldset [class.focus]="focus['password']">
+      <legend>Password</legend>
+      <input type="password" [(ngModel)]="password" (focus)="setFocus('password')" (blur)="setBlur('password')" name="password">
+    </fieldset>
+
+    <fieldset [class.focus]="focus['passwordVerify']">
+        <legend>Re-enter Password</legend>
+        <input type="password" [(ngModel)]="passwordVerify" (focus)="setFocus('passwordVerify')" (blur)="setBlur('passwordVerify')" name="passwordVerify">
+      </fieldset>
+
+    <div class="buttonArea">
+      <div><button class="btn bg-blue">Reset</button></div>
+    </div>
+  </form>
+
+</div>

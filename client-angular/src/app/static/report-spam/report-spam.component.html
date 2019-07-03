@@ -1,0 +1,17 @@
+<div class="marginAuto col col-sm-12 col-md-8 col-lg-6">
+
+    <h2>Report Spam</h2>
+    <p>The short URL you wish to report:</p>
+
+    <form (submit)="report()">
+      <fieldset [class.focus]="focus['shortURL']">
+        <legend>Short URL</legend>
+        <input type="text" [(ngModel)]="shortURL" (focus)="setFocus('shortURL')" (blur)="setBlur('shortURL')" name="shortURL">
+      </fieldset>
+
+      <div class="buttonArea">
+        <button class="btn bg-blue">Report URL</button>
+      </div>
+    </form>
+
+  </div>
