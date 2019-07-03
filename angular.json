@@ -27,8 +27,7 @@
               "src/favicon.ico",
               "src/assets",
               "src/meekrodb.2.3.class.php",
-              "src/config.sample.php",
-              "src/signInLanding.php"
+              "src/config.sample.php"
             ],
             "styles": [
               "src/styles.scss"
