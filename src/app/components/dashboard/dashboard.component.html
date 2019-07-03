@@ -1,0 +1,42 @@
+<a href="javascript:history.back()" class="navBtn"><i class="fas fa-arrow-alt-circle-left"></i></a>
+<a [routerLink]="['/']" class="navBtn"><i class="fas fa-plus-circle"></i></a>
+
+<h2>{{sessionService.username}}'s Dashboard</h2>
+<div>
+  <!-- <div *ngIf="!sessionService.token.length">
+    [<span class="clickable" (click)="clear()">clear</span>]
+  </div> -->
+
+  <table>
+    <thead>
+      <th style="width: 20%;">Title</th>
+      <th style="width: 20%;">ShortURL</th>
+      <th style="width: 25%;">LongURL</th>
+      <th style="width: 5%;">Clicks</th>
+      <th style="width: 5%;">Detail</th>
+      <th style="width: 10%;">Create</th>
+      <th style="width: 10%;">Expire</th>
+      <th style="width: 5%; text-align: center" *ngIf="sessionService.token.length">Delete</th>
+    </thead>
+    <tbody *ngIf="shorturlService.urlPairs.length">
+      <tr *ngFor="let urlPair of shorturlService.urlPairs.slice().reverse()">
+        <td class="title" title="{{urlPair.title ? urlPair.title : 'Untitled'}}">{{urlPair.title ? urlPair.title : 'Untitled'}}</td>
+        <td class="short_url" title="{{shorturlService.siteURL + urlPair.short_url}}">
+          <button class="btn bg-blue btn-thin" (click)="copy(shorturlService.siteURL + urlPair.short_url)"><i class="far fa-copy"></i></button>
+          <a href="{{shorturlService.siteURL + urlPair.short_url}}" target="_blank">{{urlPair.short_url}}</a>
+        </td>
+        <td class="long_url" title="{{urlPair.long_url}}">
+          <button class="btn bg-blue btn-thin" (click)="copy(shorturlService.siteURL + urlPair.long_url)"><i class="far fa-copy"></i></button>
+          <a href="{{urlPair.long_url}}" target="_blank">{{urlPair.long_url}}</a>
+        </td>
+        <td title="" style="text-align: right;">{{urlPair.clicks}}</td>
+        <td title=""><a [routerLink]="['/info', urlPair.short_url]"><i class="fas fa-info-circle"></i></a></td>
+        <td title="">{{moment(urlPair.create_date).format('L')}}</td>
+        <td title="">{{moment(urlPair.expire).format('L')}}</td>
+        <td title="" style="text-align: center;" *ngIf="sessionService.token.length"><i class="clickable fas fa-trash" (click)="delete(urlPair.short_url)"></i></td>
+      </tr>
+    </tbody>
+  </table>
+
+
+</div>

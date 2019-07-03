@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { SignInLandingComponent } from './components/sign-in-landing/sign-in-landing.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 
 const routes: Routes = [
@@ -14,11 +14,7 @@ const routes: Routes = [
   //     {path: 'reset/:token', component: ResetComponent },
   //   ]
   // },
-  // {
-  //   path: 'dashboard', children: [
-  //     {path: '', component: DashboardComponent},
-  //   ]
-  // },
+  { path: 'dashboard', component: DashboardComponent },
   // {
   //   path: 'info/:short_url', component: InfoComponent,
   // },
@@ -31,7 +27,6 @@ const routes: Routes = [
   //     {path: 'termsOfService', component: TermsOfServiceComponent}
   //   ]
   // },
-  { path: 'signInLanding', component: SignInLandingComponent },
   { path: '**', redirectTo: '/', pathMatch: 'full' },
 
 ];

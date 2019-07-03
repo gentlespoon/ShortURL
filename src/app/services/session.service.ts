@@ -2,8 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { ApiResponse } from '../classes/apiResponse.class';
 import { Injectable } from '@angular/core';
-import { MessageService } from '../message/message.service';
-import { Router } from '@angular/router';
+import { Router, Route } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import * as moment from 'moment';
@@ -22,32 +21,49 @@ export class SessionService {
 
   private DEV = true;
 
-  public token: string = '';
-  public username: string = 'Guest';
+  private _token = '';
+  private _username = '';
+  private _email = '';
 
-  constructor() {
+  public get username() {
+    return this._username;
+  }
+  public get email() {
+    return this._email;
+  }
+  public get token() {
+    return this._token;
+  }
+
+  public killSession() {
+    this._token = '';
+    this._username = '';
+    this._email = '';
+    localStorage.clear();
+  }
+
+  constructor(
+    private router: Router
+  ) {
     var storedToken = localStorage.getItem('token');
     if (storedToken) {
-      if (this.validateToken(storedToken)) {
-        this.token = storedToken;
+      try {
+        var parsedTokenBody = this.parseToken(storedToken);
+        this.validateTokenBody(parsedTokenBody);
+        this._email = parsedTokenBody['email'];
+        this._username = parsedTokenBody['username'];
+        this._token = storedToken;
+      } catch(ex) {
+        console.warn('[Session.Service] constructor(): Failed to restore session: ', ex);
       }
+
     }
   }
 
   private validateToken(token: string): boolean {
     try {
-      var splittedToken = token.split('.');
-      if (splittedToken.length < 3) {
-        throw 'failed to split token: ' + token;
-      }
-      var parsedTokenBody = JSON.parse(splittedToken[1]);
-      if (parsedTokenBody['iss'] !== 'account.gentlespoon.com') {
-        throw 'untrusted issuer';
-      }
-      var expirationTime = moment(parsedTokenBody['exp']).toISOString();
-      if (expirationTime <= moment().toISOString()) {
-        throw 'token has expired: ' + expirationTime;
-      }
+      var parsedTokenBody = this.parseToken(token);
+      this.validateTokenBody(parsedTokenBody);
     } catch (ex) {
       console.warn(`[Session.Service] validateToken(): `, ex);
       return false;
@@ -55,15 +71,31 @@ export class SessionService {
     return true;
   }
 
+  private parseToken(token: string): object {
+    var splittedToken = token.split('.');
+    if (splittedToken.length < 3) {
+      throw 'failed to split token: ' + token;
+    }
+    return JSON.parse(atob(splittedToken[1]));
+  }
+
+  private validateTokenBody(parsedToken: object) {
+    // if (parsedTokenBody['iss'] !== 'api.gentlespoon.com') {
+    //   throw 'untrusted issuer';
+    // }
+    var expirationTime = moment(parsedToken['exp']).toISOString();
+    if (expirationTime <= moment().toISOString()) {
+      throw 'token has expired: ' + expirationTime;
+    }
+  }
+
   public signIn(): void {
-    window.location.href = `https://account.gentlespoon.com/signin?redirect=${window.location.origin}/signInLanding.php`;
+    localStorage.setItem('pendingRedirectUrl', this.router.url);
+    window.location.href = `https://account.gentlespoon.com/signin?redirect=${window.location.origin}/signedInLanding.php`;
   }
 
   public signOut(): void {
-    this.token = '';
-    this.username = 'Guest';
-    localStorage.setItem('token', this.token);
-    localStorage.setItem('urlPairs', '[]');
+    this.killSession();
   }
 
   public isAuthed(): boolean {

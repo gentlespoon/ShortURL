@@ -1,4 +1,3 @@
-<!--
 <?php
   define('ROOT', $_SERVER['DOCUMENT_ROOT'].'/');
   // Check MySQL Library
@@ -8,11 +7,10 @@
   require_once('meekrodb.class.php');
   // Check MySQL Configuration
   if (!file_exists('config.php')) {
-    die('ShortURL has not been configured to use any database. A MySQL database is required. Please make a copy of config.sample.php and make changes base on your environment.');
+    die('ShortURL has not been configured to use any database. A MySQL database is required. Please make a copy of config.sample.php, rename to "config.php" and make changes base on your environment.');
   }
   require_once('config.php');
 ?>
--->
 <!doctype html>
 <html>
 <head>
@@ -21,7 +19,8 @@
   <base href="/">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+  <link href="https://fonts.googleapis.com/css?family=Roboto|Roboto+Mono&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans|Noto+Sans+SC|Noto+Sans+TC&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap-grid.min.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 

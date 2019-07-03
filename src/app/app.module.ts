@@ -1,27 +1,35 @@
+import { AppRoutingModule } from './app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http'; 
 import { NgModule } from '@angular/core';
 
-import { AppRoutingModule } from './app-routing.module';
+
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/_frame/header/header.component';
 import { FooterComponent } from './components/_frame/footer/footer.component';
-import { MessageComponent } from './message/message.component';
-import { SignInLandingComponent } from './components/sign-in-landing/sign-in-landing.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { InfoComponent } from './components/info/info.component';
+import { NewurlComponent } from './components/newurl/newurl.component';
+import { SessionService } from './services/session.service';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    MessageComponent,
-    SignInLandingComponent,
-
+    DashboardComponent,
+    InfoComponent,
+    NewurlComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [SessionService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
