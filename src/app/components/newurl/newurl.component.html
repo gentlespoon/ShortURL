@@ -30,7 +30,7 @@
 
   <div>
     <ul class="hint">
-      <li *ngIf="!sessionService.token.length">
+      <li *ngIf="!sessionService.token">
         <div class="row">
           <div class="col-sm-12 col-lg-6">
             If you <a class="clickable" (click)="sessionService.signIn()">sign in</a>,
@@ -51,7 +51,7 @@
         </div>
 
       </li>
-      <li *ngIf="sessionService.token.length">Welcome, {{sessionService.username}},
+      <li *ngIf="sessionService.token">Welcome, {{ sessionService.username ? sessionService.username : sessionService.email }},
         <ul>
             <li>You now have the privilege to choose your preferred Short URL.</li>
             <li>Your links will never expire unless you specify a date.</li>

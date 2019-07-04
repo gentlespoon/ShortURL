@@ -21,73 +21,98 @@ export class SessionService {
 
   private DEV = true;
 
-  private _token = '';
-  private _username = '';
-  private _email = '';
-
-  public get username() {
-    return this._username;
-  }
-  public get email() {
-    return this._email;
-  }
-  public get token() {
-    return this._token;
-  }
-
   public killSession() {
-    this._token = '';
-    this._username = '';
-    this._email = '';
     localStorage.clear();
   }
 
   constructor(
     private router: Router
   ) {
-    var storedToken = localStorage.getItem('token');
-    if (storedToken) {
+    
+    // resume session
+    console.log('[Session.Service] constructor(): restoring session');
+    var savedToken = localStorage.getItem('token');
+    if (savedToken) {
       try {
-        var parsedTokenBody = this.parseToken(storedToken);
-        this.validateTokenBody(parsedTokenBody);
-        this._email = parsedTokenBody['email'];
-        this._username = parsedTokenBody['username'];
-        this._token = storedToken;
-      } catch(ex) {
-        console.warn('[Session.Service] constructor(): Failed to restore session: ', ex);
+        console.log('[Session.Service] constructor(): session restored');
+        this.setToken(savedToken);
+      } catch (ex) {
       }
+    }
 
+  }
+
+
+  private _email = '';
+  private _expire = '0';
+  private _token = '';
+
+  public get email() : string {
+    return this._email;
+  }
+  public get expire() : string {
+    return this._expire;
+  }
+
+  public get token() : string {
+    if (this._token) {
+      try {
+        this.validateToken(this._token);
+        return this._token;
+      } catch (ex) {
+        console.warn('[Session.Service] get token(): Token not valid: ', ex);
+        return '';
+      }
+    }
+  }
+  
+  private setToken(token: string) : void {
+    if (token) {
+      var tokenBody = this.validateToken(token);
+      this._email = tokenBody['email'];
+      this._expire = tokenBody['exp'];
+      this._token = token;
+      localStorage.setItem('token', token);
+    } else {
+      this._email = '';
+      this._expire = '0';
+      this._token = '';
+      localStorage.setItem('token', '');
     }
   }
 
-  private validateToken(token: string): boolean {
+
+
+  private validateToken(token: string) : object {
+    // console.log('SessionService: validateToken(' + token + ')');
     try {
-      var parsedTokenBody = this.parseToken(token);
-      this.validateTokenBody(parsedTokenBody);
+      if (!token) {
+        throw 'token not set';
+      }
+      var splitToken = token.split('.');
+      if (splitToken.length !== 3) {
+        throw 'failed to split token';
+      }
+      try {
+        var tokenBodyJSON = atob(splitToken[1]);
+        var tokenBody = JSON.parse(tokenBodyJSON);
+      } catch (ex) {
+        throw 'failed to parse token body';
+      }
+      var now = moment().toISOString();
+      var exp = tokenBody['exp'];
+      if (exp <= now) {
+        throw 'token expired';
+      }
+      return tokenBody;
     } catch (ex) {
-      console.warn(`[Session.Service] validateToken(): `, ex);
-      return false;
+      throw '[Session.Service] validateToken(): ' + ex;
     }
-    return true;
   }
 
-  private parseToken(token: string): object {
-    var splittedToken = token.split('.');
-    if (splittedToken.length < 3) {
-      throw 'failed to split token: ' + token;
-    }
-    return JSON.parse(atob(splittedToken[1]));
-  }
 
-  private validateTokenBody(parsedToken: object) {
-    // if (parsedTokenBody['iss'] !== 'api.gentlespoon.com') {
-    //   throw 'untrusted issuer';
-    // }
-    var expirationTime = moment(parsedToken['exp']).toISOString();
-    if (expirationTime <= moment().toISOString()) {
-      throw 'token has expired: ' + expirationTime;
-    }
-  }
+
+  
 
   public signIn(): void {
     localStorage.setItem('pendingRedirectUrl', this.router.url);
@@ -98,10 +123,6 @@ export class SessionService {
     this.killSession();
     localStorage.setItem('pendingRedirectUrl', this.router.url);
     window.location.href = `https://account.gentlespoon.com/signout?redirect=${window.location.origin}`;
-  }
-
-  public isAuthed(): boolean {
-    return this.token ? true : false;
   }
 
 }

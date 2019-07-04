@@ -1,9 +1,9 @@
 <a href="javascript:history.back()" class="navBtn"><i class="fas fa-arrow-alt-circle-left"></i></a>
 <a [routerLink]="['/']" class="navBtn"><i class="fas fa-plus-circle"></i></a>
 
-<h2>{{sessionService.username}}'s Dashboard</h2>
+<h2>{{ sessionService.username ? sessionService.username : ( sessionService.email ? sessionService.email : ( 'usernamePlaceholder' | translate ) ) }}'s Dashboard</h2>
 <div>
-  <!-- <div *ngIf="!sessionService.token.length">
+  <!-- <div *ngIf="!sessionService.token">
     [<span class="clickable" (click)="clear()">clear</span>]
   </div> -->
 
@@ -16,9 +16,9 @@
       <th style="width: 5%;">Detail</th>
       <th style="width: 10%;">Create</th>
       <th style="width: 10%;">Expire</th>
-      <th style="width: 5%; text-align: center" *ngIf="sessionService.token.length">Delete</th>
+      <th style="width: 5%; text-align: center" *ngIf="sessionService.token">Delete</th>
     </thead>
-    <tbody *ngIf="shorturlService.urlPairs.length">
+    <tbody *ngIf="shorturlService.urlPairs">
       <tr *ngFor="let urlPair of shorturlService.urlPairs.slice().reverse()">
         <td class="title" title="{{urlPair.title ? urlPair.title : 'Untitled'}}">{{urlPair.title ? urlPair.title : 'Untitled'}}</td>
         <td class="short_url" title="{{shorturlService.siteURL + urlPair.short_url}}">
@@ -33,7 +33,7 @@
         <td title=""><a [routerLink]="['/info', urlPair.short_url]"><i class="fas fa-info-circle"></i></a></td>
         <td title="">{{moment(urlPair.create_date).format('L')}}</td>
         <td title="">{{moment(urlPair.expire).format('L')}}</td>
-        <td title="" style="text-align: center;" *ngIf="sessionService.token.length"><i class="clickable fas fa-trash" (click)="delete(urlPair.short_url)"></i></td>
+        <td title="" style="text-align: center;" *ngIf="sessionService.token"><i class="clickable fas fa-trash" (click)="delete(urlPair.short_url)"></i></td>
       </tr>
     </tbody>
   </table>

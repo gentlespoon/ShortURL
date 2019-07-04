@@ -1,15 +1,15 @@
 
 <div class="header">
   <div class="container">
-    <a class="header-item brand" href="/">Gs-ShortURL</a>
+    <a class="header-item brand" href="/">{{ 'appBrand' | translate }}</a>
 
     <!-- Float right has reversed order -->
     <!-- <a class="header-item right" href="/user/signup" *ngIf="!sessionService.token.length">Sign Up</a> -->
     
-    <a class="header-item right clickable" *ngIf="sessionService.token" (click)="sessionService.signOut()">Sign Out</a>
-    <a class="header-item right clickable" *ngIf="sessionService.token" href="https://account.gentlespoon.com/profile">{{sessionService.username}}</a>
+    <a class="header-item right clickable" *ngIf="sessionService.token" (click)="sessionService.signOut()">{{ 'signOut' | translate }}</a>
+    <a class="header-item right clickable" *ngIf="sessionService.token" href="https://account.gentlespoon.com/profile">{{ sessionService.username ? sessionService.username : sessionService.email }}</a>
 
-    <a class="header-item right clickable" *ngIf="!sessionService.token" (click)="sessionService.signIn()">Sign In</a>
+    <a class="header-item right clickable" *ngIf="!sessionService.token" (click)="sessionService.signIn()">{{ 'signIn' | translate }}</a>
     
     <a class="header-item right clickable" [routerLink]="['/dashboard']">Dashboard</a>
   </div>

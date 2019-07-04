@@ -1,7 +1,6 @@
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http'; 
 import { NgModule } from '@angular/core';
 
 
@@ -13,6 +12,15 @@ import { InfoComponent } from './components/info/info.component';
 import { NewurlComponent } from './components/newurl/newurl.component';
 import { SessionService } from './services/session.service';
 
+// import ngx-translate and the http loader
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader} from '@ngx-translate/http-loader';
+
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { TranslateComponent } from './components/_frame/translate/translate.component';
+import { TranslationService } from './services/translation.service';
+import { ApiService } from './services/api.service';
+
 
 @NgModule({
   declarations: [
@@ -21,15 +29,32 @@ import { SessionService } from './services/session.service';
     FooterComponent,
     DashboardComponent,
     InfoComponent,
-    NewurlComponent
+    NewurlComponent,
+    TranslateComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+          provide: TranslateLoader,
+          useFactory: HttpLoaderFactory,
+          deps: [HttpClient]
+      }
+    })
   ],
-  providers: [SessionService],
+  providers: [
+    ApiService,
+    SessionService, 
+    TranslationService,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+// required for AOT compilation
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
