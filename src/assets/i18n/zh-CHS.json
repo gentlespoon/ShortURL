@@ -1,6 +1,18 @@
 {
 	"appBrand": "Gs-短网址",
+	"clicks": "访问数",
+	"creationDate": "创建日期",
+	"dashboard": "管理界面",
+	"delete": "删除",
+	"detail": "详细",
+	"expirationDate": "过期日期",
+	"history": "访问历史",
+	"longUrl": "长网址",
+	"makeYourLinksShorter": "缩短您的网址！",
 	"usernamePlaceholder": "访客",
+	"shortUrl": "短网址",
 	"signIn": "登录",
-	"signOut": "退出"
+	"signOut": "退出",
+	"slashS": "的",
+	"title": "标题"
 }

@@ -44,12 +44,6 @@ export class DashboardComponent implements OnInit {
     this.clipboardService.copyFromContent(str);
   }
 
-  setFocus(name: string): void {
-    this.focus[name] = true;
-  }
-  setBlur(name: string): void {
-    this.focus[name] = false;
-  }
 
 
 }

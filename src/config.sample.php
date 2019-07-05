@@ -7,7 +7,7 @@
  * 2019-07-02T23:31:24.000-0700
  */
 
- if (!defined('ROOT'))
+if (!defined('ROOT'))
   exit("Access Denied.");
 $_config = [
   "db" => [
@@ -19,3 +19,10 @@ $_config = [
     "charset"   => "utf8",                 // db character set
   ],
 ];
+
+DB::$host = $_config['db']['host'];
+DB::$port = $_config['db']['port'];
+DB::$user = $_config['db']['username'];
+DB::$password = $_config['db']['password'];
+DB::$dbName = $_config['db']['dbname'];
+DB::$encoding = $_config['db']['charset'];

@@ -1,6 +1,18 @@
 {
 	"appBrand": "Gs-短網址",
+	"clicks": "訪問數",
+	"creationDate": "创建日期",
+	"dashboard": "管理介面",
+	"delete": "刪除",
+	"detail": "詳細",
+	"expirationDate": "過期日期",
+	"history": "訪問歷史",
+	"longUrl": "長網址",
+	"makeYourLinksShorter": "縮短您的網址！",
 	"usernamePlaceholder": "遊客",
+	"shortUrl": "短網址",
 	"signIn": "登入",
-	"signOut": "登出"
+	"signOut": "登出",
+	"slashS": "的",
+	"title": "標題"
 }

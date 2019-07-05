@@ -7,27 +7,28 @@ th {
   text-align: left;
 }
 
+tr:nth-child(2n-1) {
+  background-color: #00000015;
+}
+
 td, th {
   padding: .5em;
 }
 
 
 td.short_url {
-  max-width: 20%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 td.long_url {
-  max-width: 25%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 td.title {
-  max-width: 25%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

@@ -1,32 +1,45 @@
 <div class="marginAuto col col-sm-12 col-md-10 col-lg-8">
-  <h2>Make your links shorter!</h2>
-  <fieldset [class.focus]="focus['long_url']">
-    <legend>Original URL *</legend>
-    <input type="text" [(ngModel)]="long_url" (focus)="setFocus('long_url')" (blur)="setBlur('long_url')" placeholder="https://" class="long_url_input">
-    <small [class.red]="long_url.indexOf('http')===-1">Original long URL start with http:// or https://</small>
-  </fieldset>
+  <form (submit)="createNewUrlPair()" ngNativeValidate>
 
-  <fieldset [class.focus]="focus['title']">
-    <legend><input type="checkbox" [(ngModel)]="show['title']"><label (click)="toggle('title')">Show a custom title to override content extraction.</label></legend>
-    <input type="text" [(ngModel)]="title" (focus)="setFocus('title')" (blur)="setBlur('title')" *ngIf="show['title']">
-    <small *ngIf="show['title']">Redirection title (optional)</small>
-  </fieldset>
+    <h2>{{ 'makeYourLinksShorter' | translate }}</h2>
+    <fieldset [class.focus]="focus['long_url']">
+      <legend><strong>{{ 'longUrl' | translate }} *</strong></legend>
+      <input type="text" name="long_url" [(ngModel)]="long_url" (focus)="setFocus('long_url')" (blur)="setBlur('long_url')" placeholder="https://" class="long_url_input" required>
+      <small [class.red]="!long_url.startsWith('http')">Original long URL start with http:// or https://</small>
+    </fieldset>
 
-  <fieldset [class.focus]="focus['short_url']">
-    <legend><input type="checkbox" [checked]="show['short_url']" (click)="toggle('short_url')"><label (click)="toggle('short_url')">Use your preferred ShortURL.</label></legend>
-    <input type="text" [(ngModel)]="short_url" (focus)="setFocus('short_url')" (blur)="setBlur('short_url')" *ngIf="show['short_url']">
-    <small *ngIf="show['short_url']">Preferred ShortURL (optional)</small>
-  </fieldset>
+    <fieldset [class.focus]="focus['title']">
+      <legend>
+        <!-- <input type="checkbox" [(ngModel)]="show['title']"> -->
+        <label (click)="toggle('title')">Show a custom title to override content extraction.</label>
+      </legend>
+      <input type="text" name="title" [(ngModel)]="title" (focus)="setFocus('title')" (blur)="setBlur('title')" *ngIf="show['title']">
+      <small *ngIf="show['title']">Redirection title (optional)</small>
+    </fieldset>
 
-  <fieldset [class.focus]="focus['expire']">
-    <legend><input type="checkbox" [(ngModel)]="show['expire']"><label (click)="toggle('expire')">Set an expiration date.</label></legend>
-    <input type="date" [(ngModel)]="expire" (focus)="setFocus('expire')" (blur)="setBlur('expire')" *ngIf="show['expire']">
-    <small *ngIf="show['expire']">Expiration date (optional)</small>
-  </fieldset>
+    <fieldset [class.focus]="focus['short_url']">
+      <legend>
+        <!-- <input type="checkbox" [checked]="show['short_url']" (click)="toggle('short_url')"> -->
+        <label (click)="toggle('short_url')">Use your preferred ShortURL. <span *ngIf="!sessionService.token">(Requires sign in)</span></label>
+      </legend>
+      <input type="text" name="short_url" [(ngModel)]="short_url" (focus)="setFocus('short_url')" (blur)="setBlur('short_url')" *ngIf="show['short_url']">
+      <small *ngIf="show['short_url']">Preferred ShortURL (optional)</small>
+    </fieldset>
 
-  <div class="buttonArea">
-    <button class="btn bg-blue" (click)="shorten()" [disabled]="long_url.indexOf('http')===-1">Shorten URL</button>
-  </div>
+    <fieldset [class.focus]="focus['expire']">
+      <legend>
+        <!-- <input type="checkbox" [(ngModel)]="show['expire']" (click)="toggle('expire')"> -->
+        <label (click)="toggle('expire')">Set an expiration date. <span *ngIf="!sessionService.token">(Requires sign in)</span></label>
+      </legend>
+      <input type="date" name="expire" [(ngModel)]="expire" (focus)="setFocus('expire')" (blur)="setBlur('expire')" *ngIf="show['expire']">
+      <small *ngIf="show['expire']">Expiration date (optional)</small>
+    </fieldset>
+
+    <div class="buttonArea">
+      <button class="btn bg-blue">Shorten URL</button>
+    </div>
+
+  </form>
 
   <div>
     <ul class="hint">

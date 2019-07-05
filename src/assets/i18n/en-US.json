@@ -1,6 +1,18 @@
 {
 	"appBrand": "Gs-ShortURL",
+	"clicks": "Clicks",
+	"creationDate": "Creation Date",
+	"dashboard": "Dashboard",
+	"delete": "Delete",
+	"detail": "Detail",
+	"expirationDate": "Expiration Date",
+	"history": "History",
+	"longUrl": "Long URL",
+	"makeYourLinksShorter": "Make your links shorter!",
 	"usernamePlaceholder": "Guest",
+	"shortUrl": "Short URL",
 	"signIn": "Sign In",
-	"signOut": "Sign Out"
+	"signOut": "Sign Out",
+	"slashS": "'s",
+	"title": "Title"
 }

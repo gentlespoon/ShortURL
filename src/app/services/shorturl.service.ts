@@ -31,7 +31,7 @@ export class ShorturlService {
 
 
   public loadList(): void {
-    if (this.DEV) console.log('Loading your URL list');
+    if (this.DEV) console.log('Loading URL Pair list');
     this.apiService.post('list', this.sessionService.token, {})
     .subscribe(response=> {
       if (response.success) {
@@ -49,21 +49,8 @@ export class ShorturlService {
   }
 
 
-  public newUrlPair(urlPair: UrlPair): Observable<ApiResponse> {
-    if (!urlPair.long_url) {
-      throw 'long_url cannot be empty';
-    }
-
-    if (urlPair.short_url || urlPair.expire) {
-      if (this.sessionService.token) {
-        throw 'You must sign in to use custom short_url or expiration date';
-      }
-    }
-
-    if (!urlPair.expire) urlPair.expire = '';
-
+  public createUrl(urlPair: UrlPair): Observable<ApiResponse> {
     return this.apiService.post('add', this.sessionService.token, urlPair);
-
   }
 
 
@@ -72,22 +59,29 @@ export class ShorturlService {
     if (!this.sessionService.token) {
       alert('Guests cannot delete URLs');
     }
-    throw 'Not Implemented';
-    // this.http.post<ApiResponse>('/api/url/delete', JSON.stringify({short_url: short_url, token: this.sessionService.token}), httpOptions)
-    // .subscribe(response=> {
-    //   if (response.success) {
-    //     this.loadList();
-    //   } else {
-    //     console.error(response.data.tostring());
-    //   }
-    // });
+    this.apiService.post('delete', this.sessionService.token, {short_url: short_url})
+      .subscribe(response => {
+        if (response.success) {
+          for (let urlPairIndex = 0; urlPairIndex < this.urlPairs.length; urlPairIndex++) {
+            if (this.urlPairs[urlPairIndex].short_url === short_url) {
+              this.urlPairs.splice(urlPairIndex, 1);
+              break;
+            }
+          }
+        } else {
+          throw 'Failed to delete urlPair: ' + response.data;
+        }
+      })
   }
 
 
 
   public getInfo(short_url: string): Observable<ApiResponse> {
-    throw 'Not Implemented';
-    // return this.http.post<ApiResponse>('/api/url/info', JSON.stringify({token: this.sessionService.token, short_url: short_url}), httpOptions);
+    return this.apiService.post('info', this.sessionService.token, {short_url: short_url});
+  }
+
+  public getHistory(short_url: string, token: string): Observable<ApiResponse> {
+    return this.apiService.post('history', token, {short_url: short_url});
   }
 
 }

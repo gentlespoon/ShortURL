@@ -6,37 +6,37 @@
 
   <table class="info">
     <tr>
-      <th>Title</th>
+      <th>{{ 'title' | translate }}</th>
       <td><strong>{{urlPair.title}}</strong></td>
     </tr>
     <tr>
-      <th>Short URL</th>
+      <th>{{ 'shortUrl' | translate }}</th>
       <td>
         <button class="btn bg-blue btn-thin" (click)="copy(shorturlService.siteURL + urlPair.short_url)"><i class="far fa-copy"></i></button>
         <a href="{{shorturlService.siteURL + urlPair.short_url}}" target="_blank">{{urlPair.short_url}}</a>
       </td>
     </tr>
     <tr>
-      <th>Long URL</th>
+      <th>{{ 'longUrl' | translate }}</th>
       <td>
         <button class="btn bg-blue btn-thin" (click)="copy(urlPair.long_url)"><i class="far fa-copy"></i></button>
         <a href="{{urlPair.long_url}}" target="_blank">{{urlPair.long_url}}</a>
       </td>
     </tr>
     <tr>
-      <th>Create Date</th>
+      <th>{{ 'creationDate' | translate }}</th>
       <td>{{moment(urlPair.create_date).format('L')}}</td>
     </tr>
     <tr>
-      <th>Expiration Date</th>
+      <th>{{ 'expirationDate' | translate }}</th>
       <td>{{moment(urlPair.expire).format('L')}}</td>
     </tr>
     <tr>
-      <th>Total Visits</th>
+      <th>{{ 'clicks' | translate }}</th>
       <td>{{urlPair.clicks}}</td>
     </tr>
     <tr>
-      <th>History</th>
+      <th>{{ 'history' | translate }}</th>
       <td>
         <table class="history">
           <thead>
@@ -48,16 +48,16 @@
               <th>User Agent</th>
             </tr>
           </thead>
-          <tbody class="nrBody" *ngIf="!urlPair.history.length">
+          <tbody class="nrBody" *ngIf="!history.length">
             <tr><td class="nr" colspan="5">No Record</td></tr>
           </tbody>
-          <tbody class="histBody" *ngIf="urlPair.history.length">
-            <tr *ngFor="let hist of urlPair.history">
-              <td class="url">{{hist.request_url}}</td>
-              <td class="time">{{moment(hist.request_time).format('llll')}}</td>
-              <td class="ip">{{hist.ip}}</td>
-              <td class="loc">{{hist.location}}</td>
-              <td class="ua">{{hist.user_agent}}</td>
+          <tbody class="histBody" *ngIf="history.length">
+            <tr *ngFor="let hist of history">
+              <td class="url">{{ hist.request_url }}</td>
+              <td class="time">{{ moment(hist.request_time).format('llll') }}</td>
+              <td class="ip">{{ hist.ip }}</td>
+              <td class="loc">{{ hist.location }}</td>
+              <td class="ua">{{ hist.user_agent }}</td>
             </tr>
           </tbody>
         </table>

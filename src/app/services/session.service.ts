@@ -1,34 +1,19 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-
-import { ApiResponse } from '../classes/apiResponse.class';
 import { Injectable } from '@angular/core';
-import { Router, Route } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 import * as moment from 'moment';
-
-
-
-
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-}
 
 @Injectable({
   providedIn: 'root'
 })
 export class SessionService {
 
-  private DEV = true;
-
-  public killSession() {
-    localStorage.clear();
-  }
+  private DEV = false;
 
   constructor(
     private router: Router
   ) {
-    
+
     // resume session
     console.log('[Session.Service] constructor(): restoring session');
     var savedToken = localStorage.getItem('token');
@@ -44,11 +29,15 @@ export class SessionService {
 
 
   private _email = '';
+  private _username = '';
   private _expire = '0';
   private _token = '';
 
   public get email() : string {
     return this._email;
+  }
+  public get username() : string {
+    return this._username;
   }
   public get expire() : string {
     return this._expire;
@@ -65,22 +54,28 @@ export class SessionService {
       }
     }
   }
-  
+
   private setToken(token: string) : void {
     if (token) {
       var tokenBody = this.validateToken(token);
       this._email = tokenBody['email'];
+      this._username = tokenBody['username'];
       this._expire = tokenBody['exp'];
       this._token = token;
       localStorage.setItem('token', token);
     } else {
-      this._email = '';
-      this._expire = '0';
-      this._token = '';
-      localStorage.setItem('token', '');
+      this.killSession();
     }
   }
 
+
+  private killSession() {
+    localStorage.clear();
+    this._email = '';
+    this._expire = '';
+    this._token = '';
+    this._username = '';
+  }
 
 
   private validateToken(token: string) : object {
@@ -112,7 +107,7 @@ export class SessionService {
 
 
 
-  
+
 
   public signIn(): void {
     localStorage.setItem('pendingRedirectUrl', this.router.url);

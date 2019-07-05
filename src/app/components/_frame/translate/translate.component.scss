@@ -1,9 +1,12 @@
 select {
-  height: 30px;
-  line-height: 30px;
   display: inline-block;
   margin: 0 1em;
+  color: white;
+  background-color: transparent;
+  border: none;
 }
 
 option {
+  color: black;
+  background-color: unset;
 }

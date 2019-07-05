@@ -31,31 +31,34 @@ export class NewurlComponent implements OnInit {
   ngOnInit() {
   }
 
-  shorten(): void {
-    if (this.long_url.indexOf('http') === -1) return;
+  createNewUrlPair(): void {
+    if (!this.long_url.startsWith('http')) {
+      return;
+    }
     var urlObj = {
       long_url: this.long_url,
       short_url: this.show['short_url'] && this.short_url ? this.short_url : '',
       title: this.show['title'] && this.title ? this.title : '',
       expire: this.show['expire'] && this.expire ? this.expire : '',
     };
-    this.shorturlService.newUrlPair(new UrlPair(urlObj)).subscribe(response=> {
-      if (response.success) {
-        var urlObj = <object>response.data;
-        this.shorturlService.urlPairs.push( new UrlPair(urlObj) );
-        localStorage.setItem('urlPairs', JSON.stringify(this.shorturlService.urlPairs));
-        console.log('ShortURL has been created');
-        this.router.navigate(['/info/' + urlObj['short_url']]);
-      } else {
-        console.error(response.data.toString());
-      }
-    });
+    this.shorturlService.createUrl(new UrlPair(urlObj))
+      .subscribe(response=> {
+        if (response.success) {
+          var urlObj = <object>response.data;
+          this.shorturlService.urlPairs.push( new UrlPair(urlObj) );
+          localStorage.setItem('urlPairs', JSON.stringify(this.shorturlService.urlPairs));
+          console.log('ShortURL has been created');
+          this.router.navigate(['/info/' + urlObj['short_url']]);
+        } else {
+          console.error(response.data.toString());
+        }
+      });
   }
 
-  clear(): void {
-    localStorage.setItem('urlPairs', '[]');
-    this.shorturlService.urlPairs = [];
-  }
+  // clear(): void {
+  //   localStorage.setItem('urlPairs', '[]');
+  //   this.shorturlService.urlPairs = [];
+  // }
 
   copy(str: string): void {
     this.clipboardService.copyFromContent(str);
@@ -72,9 +75,11 @@ export class NewurlComponent implements OnInit {
     }
     this.show[str] = !this.show[str];
   }
+
   setFocus(name: string): void {
     this.focus[name] = true;
   }
+
   setBlur(name: string): void {
     this.focus[name] = false;
   }

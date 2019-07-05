@@ -1,4 +1,11 @@
+legend > label {
+  cursor: pointer;
+}
 
+legend > label > span {
+  font-size: 0.8em;
+  color: gray;
+}
 
 
 .buttonArea {
