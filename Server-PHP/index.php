@@ -175,7 +175,7 @@ class RuntimeConfiguration {
 }
 
 class Renderer {
-  private $externalTemplate = './template.html';
+  private $externalTemplate = './index.html';
 
   private $defaultTemplate = '
 <html>
