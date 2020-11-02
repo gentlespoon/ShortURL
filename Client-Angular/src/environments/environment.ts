@@ -3,7 +3,16 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  oauth: {
+    baseURL: `https://gtspn.us.auth0.com`,
+    endpoints: {
+      authorize: `/authorize`,
+      token: `/oauth/token`,
+      logout: `/v2/logout`,
+    },
+    clientId: `D7RfOpIx35nyGg9sfMjvDhcv03PltZuG`,
+  },
 };
 
 /*

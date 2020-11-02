@@ -1,20 +1,12 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit } from "@angular/core";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.scss"],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+  constructor() {}
 
-  constructor(
-    private router: Router
-  ) {
-    var pendingRedirectUrl = localStorage.getItem('pendingRedirectUrl');
-    localStorage.removeItem('pendingRedirectUrl');
-    if (pendingRedirectUrl) {
-      this.router.navigate([pendingRedirectUrl]);
-    }
-  }
+  ngOnInit() {}
 }

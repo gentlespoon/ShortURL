@@ -1,26 +1,27 @@
-import { AppRoutingModule } from './app-routing.module';
-import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
-import { NgModule } from '@angular/core';
+import { AppRoutingModule } from "./app-routing.module";
+import { BrowserModule } from "@angular/platform-browser";
+import { FormsModule } from "@angular/forms";
+import { NgModule } from "@angular/core";
 
-
-import { AppComponent } from './app.component';
-import { HeaderComponent } from './components/_frame/header/header.component';
-import { FooterComponent } from './components/_frame/footer/footer.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { InfoComponent } from './components/info/info.component';
-import { NewurlComponent } from './components/newurl/newurl.component';
-import { SessionService } from './services/session.service';
+import { AppComponent } from "./app.component";
+import { HeaderComponent } from "./components/_frame/header/header.component";
+import { FooterComponent } from "./components/_frame/footer/footer.component";
+import { DashboardComponent } from "./components/dashboard/dashboard.component";
+import { InfoComponent } from "./components/info/info.component";
+import { NewurlComponent } from "./components/newurl/newurl.component";
+import { SessionService } from "./services/session.service";
 
 // import ngx-translate and the http loader
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { TranslateHttpLoader} from '@ngx-translate/http-loader';
+import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
+import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { TranslateComponent } from './components/_frame/translate/translate.component';
-import { TranslationService } from './services/translation.service';
-import { ApiService } from './services/api.service';
-
+import { HttpClient, HttpClientModule } from "@angular/common/http";
+import { TranslateComponent } from "./components/_frame/translate/translate.component";
+import { TranslationService } from "./services/translation.service";
+import { ApiService } from "./services/api.service";
+import { AuthRedirectComponent } from "./components/session/auth-redirect/auth-redirect.component";
+import { LoginComponent } from "./components/session/login/login.component";
+import { LogoutComponent } from './components/session/logout/logout.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,9 @@ import { ApiService } from './services/api.service';
     InfoComponent,
     NewurlComponent,
     TranslateComponent,
+    AuthRedirectComponent,
+    LoginComponent,
+    LogoutComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,20 +43,16 @@ import { ApiService } from './services/api.service';
     HttpClientModule,
     TranslateModule.forRoot({
       loader: {
-          provide: TranslateLoader,
-          useFactory: HttpLoaderFactory,
-          deps: [HttpClient]
-      }
-    })
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient],
+      },
+    }),
   ],
-  providers: [
-    ApiService,
-    SessionService, 
-    TranslationService,
-  ],
-  bootstrap: [AppComponent]
+  providers: [ApiService, SessionService, TranslationService],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
 
 // required for AOT compilation
 export function HttpLoaderFactory(http: HttpClient) {
