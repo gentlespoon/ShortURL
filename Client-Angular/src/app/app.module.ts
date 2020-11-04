@@ -20,8 +20,6 @@ import { TranslateComponent } from "./components/_frame/translate/translate.comp
 import { TranslationService } from "./services/translation.service";
 import { ApiService } from "./services/api.service";
 import { AuthRedirectComponent } from "./components/session/auth-redirect/auth-redirect.component";
-import { LoginComponent } from "./components/session/login/login.component";
-import { LogoutComponent } from './components/session/logout/logout.component';
 
 @NgModule({
   declarations: [
@@ -33,8 +31,6 @@ import { LogoutComponent } from './components/session/logout/logout.component';
     NewurlComponent,
     TranslateComponent,
     AuthRedirectComponent,
-    LoginComponent,
-    LogoutComponent,
   ],
   imports: [
     BrowserModule,

@@ -19,19 +19,10 @@ export class AuthRedirectComponent implements OnInit {
     // console.log(this.activatedRoute.queryParams._value);
 
     this.activatedRoute.queryParams.subscribe((params) => {
-      console.log(params);
+      // console.log(params);
       if (Object.keys(params).length > 0) {
-        this.authorizationCode = params["code"];
-        this.sessionService.tokenGrantingCode = params["code"];
+        this.sessionService.getTokenWithAuthorizationCode(params["code"]);
       }
     });
-  }
-
-  public clientId = environment.oauth.clientId;
-
-  public authorizationCode: string;
-
-  public get codeVerifier() {
-    return localStorage.getItem("oauth2_pkce_code_verifier");
   }
 }

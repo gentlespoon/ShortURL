@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ClipboardService } from 'ngx-clipboard';
 import { SessionService } from 'src/app/services/session.service';
 import { ShorturlService } from 'src/app/services/shorturl.service';
-import { UrlPair } from '../../classes/urlpair';
+import { UrlPair } from '../../classes/urlPair';
 
 @Component({
   selector: 'app-dashboard',

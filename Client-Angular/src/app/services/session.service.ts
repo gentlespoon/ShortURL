@@ -3,33 +3,31 @@ import { Router } from "@angular/router";
 
 import * as moment from "moment";
 import { environment } from "../../environments/environment";
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
+
+import * as crypto from "crypto-js";
 
 @Injectable({
   providedIn: "root",
 })
 export class SessionService {
-  private DEV = false;
+  private DEV = true;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private http: HttpClient) {
     // resume session
     console.log("[Session.Service] constructor(): restoring session");
-    var savedToken = localStorage.getItem("token");
-    if (savedToken) {
-      try {
+    var accessToken = localStorage.getItem("token.access");
+    this.introspectToken(accessToken, (tokenInfo) => {
+      if (tokenInfo["active"]) {
         console.log("[Session.Service] constructor(): session restored");
-        this.setToken(savedToken);
-      } catch (ex) {}
-    }
-  }
-
-  public set tokenGrantingCode(tgc: string) {
-    console.log("Token Granting Code:", tgc);
+      } else {
+        console.log("[Session.Service] constructor(): session expired");
+      }
+    });
   }
 
   private _email = "";
   private _username = "";
-  private _expire = "0";
-  private _token = "";
 
   public get email(): string {
     return this._email;
@@ -37,78 +35,174 @@ export class SessionService {
   public get username(): string {
     return this._username;
   }
-  public get expire(): string {
-    return this._expire;
-  }
 
   public get token(): string {
-    if (this._token) {
-      try {
-        this.validateToken(this._token);
-        return this._token;
-      } catch (ex) {
-        console.warn("[Session.Service] get token(): Token not valid: ", ex);
-        return "";
-      }
-    }
+    let accessToken = localStorage.getItem("token.access");
+    return accessToken ? accessToken : "";
   }
 
-  private setToken(token: string): void {
-    if (token) {
-      var tokenBody = this.validateToken(token);
-      this._email = tokenBody["email"];
-      this._username = tokenBody["username"];
-      this._expire = tokenBody["exp"];
-      this._token = token;
-      localStorage.setItem("token", token);
-    } else {
-      this.killSession();
-    }
+  private setAccessToken(token: string): void {
+    localStorage.setItem("token.access", token);
+  }
+
+  private setRefreshToken(token: string): void {
+    localStorage.setItem("token.refresh", token);
   }
 
   private killSession() {
-    localStorage.clear();
+    localStorage.removeItem("token.access");
+    localStorage.removeItem("token.refresh");
     this._email = "";
-    this._expire = "";
-    this._token = "";
     this._username = "";
   }
 
-  private validateToken(token: string): object {
+  private introspectToken(token: string, callback: Function) {
     // console.log('SessionService: validateToken(' + token + ')');
-    try {
-      if (!token) {
-        throw "token not set";
-      }
-      var splitToken = token.split(".");
-      if (splitToken.length !== 3) {
-        throw "failed to split token";
-      }
-      try {
-        var tokenBodyJSON = atob(splitToken[1]);
-        var tokenBody = JSON.parse(tokenBodyJSON);
-      } catch (ex) {
-        throw "failed to parse token body";
-      }
-      var now = moment().toISOString();
-      var exp = tokenBody["exp"];
-      if (exp <= now) {
-        throw "token expired";
-      }
-      return tokenBody;
-    } catch (ex) {
-      throw "[Session.Service] validateToken(): " + ex;
+    const params = {
+      client_id: environment.oauth.clientId,
+      token: token,
+    };
+
+    let qs = new HttpParams();
+    for (let paramName of Object.keys(params)) {
+      qs = qs.set(paramName, params[paramName]);
     }
+
+    let introspect =
+      environment.oauth.baseURL + environment.oauth.endpoints.introspect;
+
+    this.http
+      .post(introspect, qs.toString(), {
+        headers: new HttpHeaders().set(
+          "Content-Type",
+          "application/x-www-form-urlencoded"
+        ),
+      })
+      .subscribe(
+        (response) => {
+          console.log(response);
+          if (response["active"]) {
+            this._username = response["preferred_username"];
+            this._email = response["email"];
+          } else {
+          }
+          if (callback !== null) {
+            callback(response);
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   }
 
   public signIn() {
     localStorage.setItem("pendingRedirectUrl", this.router.url);
-    this.router.navigate(["/login"]);
+
+    const pkce_challenge = this.generate_PKCE_challenge();
+    localStorage.setItem("oauth2_pkce_code_verifier", pkce_challenge[0]);
+
+    const params = {
+      client_id: environment.oauth.clientId,
+      redirect_uri: location.origin + "/auth-redirect",
+      response_type: "code",
+      code_challenge_method: "S256",
+      code_challenge: pkce_challenge[1],
+    };
+
+    let authorize =
+      environment.oauth.baseURL + environment.oauth.endpoints.authorize;
+
+    let qs = new HttpParams();
+    for (let paramName of Object.keys(params)) {
+      qs = qs.set(paramName, params[paramName]);
+    }
+
+    let url = authorize + "?" + qs.toString();
+
+    window.location.href = url;
+  }
+
+  private generate_PKCE_challenge(): [string, string] {
+    const length = 64;
+    var code_verifier = "";
+    var characters =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    var charactersLength = characters.length;
+    for (var i = 0; i < length; i++) {
+      code_verifier += characters.charAt(
+        Math.floor(Math.random() * charactersLength)
+      );
+    }
+
+    var sha256ed = crypto.SHA256(code_verifier);
+    var challenge = crypto.enc.Base64.stringify(sha256ed)
+      .replace(/=/g, "")
+      .replace(/\+/g, "-")
+      .replace(/\//g, "_");
+
+    return [code_verifier, challenge];
   }
 
   public signOut(): void {
     this.killSession();
     localStorage.setItem("pendingRedirectUrl", this.router.url);
-    this.router.navigate(["/logout"]);
+
+    const params = {
+      client_id: environment.oauth.clientId,
+    };
+
+    let logout = environment.oauth.baseURL + environment.oauth.endpoints.logout;
+
+    let qs = new HttpParams();
+    for (let paramName of Object.keys(params)) {
+      qs = qs.set(paramName, params[paramName]);
+    }
+
+    let url = logout + "?" + qs.toString();
+
+    window.location.href = url;
+  }
+
+  public getTokenWithAuthorizationCode(authCode: string) {
+    const params = {
+      client_id: environment.oauth.clientId,
+      redirect_uri: location.origin + "/auth-redirect",
+      grant_type: "authorization_code",
+      code: authCode,
+      code_verifier: localStorage.getItem("oauth2_pkce_code_verifier"),
+    };
+    localStorage.removeItem("oauth2_pkce_code_verifier");
+
+    let qs = new HttpParams();
+    for (let paramName of Object.keys(params)) {
+      qs = qs.set(paramName, params[paramName]);
+    }
+
+    let token = environment.oauth.baseURL + environment.oauth.endpoints.token;
+
+    this.http
+      .post(token, qs.toString(), {
+        headers: new HttpHeaders().set(
+          "Content-Type",
+          "application/x-www-form-urlencoded"
+        ),
+      })
+      .subscribe(
+        (response) => {
+          console.log(response);
+          this.setAccessToken(response["access_token"]);
+          this.setRefreshToken(response["refresh_token"]);
+          this.introspectToken(response["access_token"], (tokenInfo) => {
+            if (tokenInfo["active"]) {
+              let url = localStorage.getItem("pendingRedirectUrl") ?? "/";
+              this.router.navigate([url]);
+            }
+          });
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   }
 }

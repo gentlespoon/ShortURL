@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UrlPair } from '../../classes/urlpair';
+import { UrlPair } from '../../classes/urlPair';
 import { ActivatedRoute } from '@angular/router';
 import { ClipboardService } from 'ngx-clipboard';
 import * as Moment from 'moment';

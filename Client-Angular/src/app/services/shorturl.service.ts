@@ -1,7 +1,7 @@
 import { ApiResponse } from '../classes/apiResponse.class';
 import { Injectable } from '@angular/core';
 import { SessionService } from 'src/app/services/session.service';
-import { UrlPair } from '../classes/urlpair';
+import { UrlPair } from '../classes/urlPair';
 import { Observable } from 'rxjs';
 import { ApiService } from './api.service';
 
