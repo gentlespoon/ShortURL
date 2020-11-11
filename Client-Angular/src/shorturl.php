@@ -3,8 +3,9 @@
   if (array_key_exists('path', $_GET) && $_GET['path'] != '') {
     // if not reserved urls
     if (!in_array($_GET['path'], [
-      'dashboard'
-    ]) && substr($_SERVER['REQUEST_URI'], 0, strlen('/info/')) !== '/info/') {
+      'dashboard', 
+    ]) && substr($_SERVER['REQUEST_URI'], 0, strlen('/info/')) !== '/info/' &&
+    substr($_SERVER['REQUEST_URI'], 0, strlen('/auth-redirect?')) !== '/auth-redirect?') {
 
       // Use UTC time
       date_default_timezone_set('UTC');
@@ -32,6 +33,7 @@
         else $ip=$_SERVER['REMOTE_ADDR'];
         return $ip;
       }
+      
       function jsISOtime($time = null) {
         if (!$time) $time = time();
         return date('Y-m-d\TH:i:s.000\Z', $time);
@@ -58,52 +60,7 @@
     }
 
   }
+  else {
+    header('location: /');
+  }
 
-
-?>
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <title>Gs-ShortURL</title>
-    <base href="/" />
-
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link
-      href="https://fonts.googleapis.com/css?family=Roboto|Roboto+Mono&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css?family=Noto+Sans|Noto+Sans+SC|Noto+Sans+TC&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap-grid.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
-      integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
-      crossorigin="anonymous"
-    />
-
-    <!-- <script src="https://www.google.com/recaptcha/api.js?render=6LcHM5QUAAAAACHSgtF-XvOoTh1K6T0osdigTiZo"></script> -->
-
-    <link rel="icon" type="image/x-icon" href="favicon.ico" />
-  </head>
-  <body>
-    <app-root></app-root>
-
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-134721040-1"></script> -->
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
-      gtag("config", "UA-134721040-1");
-    </script>
-  </body>
-</html>

@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
   oauth: {
-    baseURL: `https://account.na-us-la.gentlespoon.com/oauth2/`,
+    baseURL: `https://account.gentlespoon.com/oauth2/`,
     endpoints: {
       authorize: `authorize`,
       introspect: `introspect`,
