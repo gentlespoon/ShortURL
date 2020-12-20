@@ -108,6 +108,7 @@ export class SessionService {
       response_type: "code",
       code_challenge_method: "S256",
       code_challenge: pkce_challenge[1],
+      scope: "offline_access openid",
     };
 
     let authorize =
