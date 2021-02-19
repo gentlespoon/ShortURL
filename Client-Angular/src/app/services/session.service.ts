@@ -21,6 +21,10 @@ export class SessionService {
       if (tokenInfo["active"]) {
         console.log("[Session.Service] constructor(): session restored");
       } else {
+        let refreshToken = localStorage.getItem("token.refresh");
+        if (refreshToken) {
+          this.getTokenWithRefreshToken(refreshToken);
+        }
         console.log("[Session.Service] constructor(): session expired");
       }
     });
@@ -56,7 +60,7 @@ export class SessionService {
     this._username = "";
   }
 
-  private introspectToken(token: string, callback: Function) {
+  private introspectToken(token: string, callback: Function = null) {
     // console.log('SessionService: validateToken(' + token + ')');
     const params = {
       client_id: environment.oauth.clientId,
@@ -108,7 +112,7 @@ export class SessionService {
       response_type: "code",
       code_challenge_method: "S256",
       code_challenge: pkce_challenge[1],
-      scope: "offline_access openid",
+      scope: "openid offline_access",
     };
 
     let authorize =
@@ -202,6 +206,42 @@ export class SessionService {
           });
         },
         (error) => {
+          console.log(error);
+        }
+      );
+  }
+
+  public getTokenWithRefreshToken(refreshToken: string) {
+    const params = {
+      client_id: environment.oauth.clientId,
+      grant_type: "refresh_token",
+      refresh_token: refreshToken,
+    };
+
+    let qs = new HttpParams();
+    for (let paramName of Object.keys(params)) {
+      qs = qs.set(paramName, params[paramName]);
+    }
+
+    let token = environment.oauth.baseURL + environment.oauth.endpoints.token;
+
+    this.http
+      .post(token, qs.toString(), {
+        headers: new HttpHeaders().set(
+          "Content-Type",
+          "application/x-www-form-urlencoded"
+        ),
+      })
+      .subscribe(
+        (response) => {
+          console.log(response);
+          this.setAccessToken(response["access_token"]);
+          this.setRefreshToken(response["refresh_token"]);
+          this.introspectToken(response["access_token"]);
+        },
+        (error) => {
+          localStorage.removeItem("token.refresh");
+          localStorage.removeItem("token.access");
           console.log(error);
         }
       );
