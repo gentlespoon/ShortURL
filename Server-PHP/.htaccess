@@ -1,4 +1,7 @@
 RewriteEngine on
+
+ErrorDocument 403 /shorturl_server.php
+
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ /shorturl_server.php?path=$1 [NC,L,QSA]

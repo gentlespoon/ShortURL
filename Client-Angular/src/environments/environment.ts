@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   oauth: {
-    baseURL: `https://auth.gentlespoon.com/oauth2/`,
+    baseURL: `https://auth.angdasoft.com/oauth2/`,
     endpoints: {
       authorize: `authorize`,
       introspect: `introspect`,

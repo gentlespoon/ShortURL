@@ -1,4 +1,9 @@
 RewriteEngine on
+RewriteCond %{REQUEST_URI} ^/auth-redirect [OR]
+RewriteCond %{REQUEST_URI} ^/dashboard [OR]
+RewriteCond %{REQUEST_URI} ^/info
+RewriteRule ^(.*) index.html [NC,L]
+
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ /shorturl.php?path=$1 [NC,L,QSA]
+RewriteRule ^(.*)$ /redirector.php?path=$1 [NC,L,QSA]

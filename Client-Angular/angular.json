@@ -24,10 +24,11 @@
             "tsConfig": "tsconfig.app.json",
             "aot": false,
             "assets": [
+              "src/.htaccess",
               "src/favicon.ico",
               "src/assets",
               "src/config.sample.php",
-              "src/.htaccess"
+              "src/redirector.php"
             ],
             "styles": ["src/styles.scss"],
             "scripts": []
